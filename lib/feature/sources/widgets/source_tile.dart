@@ -1,0 +1,99 @@
+import 'package:shimmer/shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_news_app/data/model/source_model.dart';
+import 'package:flutter_news_app/feature/sources/view_model/select_sources_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class SourceTile extends ConsumerWidget {
+  final SourceModel source;
+
+  const SourceTile({
+    required this.source,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        ListTile(
+          contentPadding: EdgeInsets.zero,
+          leading: _buildLeading(context),
+          title: Text(
+            source.name ?? '',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w500),
+          ),
+          trailing: Switch(
+            thumbColor: WidgetStatePropertyAll<Color>(
+              Theme.of(context).colorScheme.onSurface,
+            ),
+            value: source.isFollowed ?? false,
+            onChanged: (_) => ref
+                .read(selectSourcesViewModelProvider.notifier)
+                .toggleFollow(source.id ?? ''),
+            activeColor: Theme.of(context)
+                .colorScheme
+                .onSurface
+                .withValues(alpha: 0.2),
+            activeTrackColor: Theme.of(context)
+                .colorScheme
+                .onSurface
+                .withValues(alpha: 0.2),
+          ),
+        ),
+        Divider(
+          thickness: 0.7,
+          color:
+              Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLeading(BuildContext context) {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: source.imageUrl != null
+          ? CachedNetworkImage(
+              imageUrl: source.imageUrl!,
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              placeholder: (context, url) => Shimmer.fromColors(
+                baseColor:
+                    Theme.of(context).colorScheme.surfaceContainerHighest,
+                highlightColor: Theme.of(context).colorScheme.surface,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              errorWidget: (context, url, error) => Icon(
+                Icons.article,
+                color: Theme.of(context).colorScheme.onPrimaryContainer,
+              ),
+            )
+          : Icon(
+              Icons.article,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
+    );
+  }
+}
