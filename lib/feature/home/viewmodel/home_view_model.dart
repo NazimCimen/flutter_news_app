@@ -1,86 +1,138 @@
-import 'package:flutter_news_app/data/model/news_model.dart';
 import 'package:flutter_news_app/data/repository/news_repository.dart';
+import 'package:flutter_news_app/feature/home/viewmodel/home_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// News fetch type enum
-enum NewsType { popular, personalized, category }
-
-/// Provider for popular news (Son Haberler)
-final popularNewsProvider =
-    StateNotifierProvider<NewsViewModel, AsyncValue<List<NewsModel>>>((ref) {
-  return NewsViewModel(
-    newsRepository: ref.read(newsRepositoryProvider),
-    newsType: NewsType.popular,
-  );
+/// Main home provider
+final homeViewModelProvider = StateNotifierProvider<HomeViewModel, HomeState>((
+  ref,
+) {
+  return HomeViewModel(newsRepository: ref.read(newsRepositoryProvider));
 });
 
-/// Provider for personalized news (Sana Özel)
-final personalizedNewsProvider =
-    StateNotifierProvider<NewsViewModel, AsyncValue<List<NewsModel>>>((ref) {
-  return NewsViewModel(
-    newsRepository: ref.read(newsRepositoryProvider),
-    newsType: NewsType.personalized,
-  );
-});
-
-/// Provider family for category news
-/// Her kategori için ayrı instance oluşturur
-final categoryNewsProvider = StateNotifierProvider.family<NewsViewModel,
-    AsyncValue<List<NewsModel>>, String>((ref, categoryId) {
-  return NewsViewModel(
-    newsRepository: ref.read(newsRepositoryProvider),
-    newsType: NewsType.category,
-    categoryId: categoryId,
-    pageSize: 2, // Kategori preview için sadece 2 haber
-  );
-});
-
-/// Single unified ViewModel for all news types
-/// Tüm haber tipleri için tek ViewModel kullanıyoruz
-class NewsViewModel extends StateNotifier<AsyncValue<List<NewsModel>>> {
+/// Home ViewModel
+class HomeViewModel extends StateNotifier<HomeState> {
   final NewsRepository _newsRepository;
-  final NewsType _newsType;
-  final String? _categoryId;
-  final int? _pageSize;
 
-  NewsViewModel({
-    required NewsRepository newsRepository,
-    required NewsType newsType,
-    String? categoryId,
-    int? pageSize,
-  })  : _newsRepository = newsRepository,
-        _newsType = newsType,
-        _categoryId = categoryId,
-        _pageSize = pageSize,
-        super(const AsyncValue.loading()) {
-    fetchNews();
+  HomeViewModel({required NewsRepository newsRepository})
+      : _newsRepository = newsRepository,
+        super(const HomeState()) {
+    fetchLastNews();
+    fetchPersonalizedNews();
   }
 
-  /// Fetch news based on type
-  Future<void> fetchNews() async {
-    state = const AsyncValue.loading();
+  /// Fetch latest news
+  Future<void> fetchLastNews() async {
+    state = state.copyWith(
+      latestTab: state.latestTab.copyWith(news: const AsyncValue.loading()),
+    );
 
-    final result = switch (_newsType) {
-      NewsType.popular => await _newsRepository.fetchNews(),
-      NewsType.personalized => await _newsRepository.fetchNews(forYou: true),
-      NewsType.category => await _newsRepository.fetchNewsByCategory(
-          categoryId: _categoryId!,
-          pageSize: _pageSize,
-        ),
-    };
+    final result = await _newsRepository.fetchNews(
+      forYou: false,
+      isLatest: true,
+    );
 
-    result.fold(
+    await result.fold(
       (failure) {
-        state = AsyncValue.error(failure.errorMessage, StackTrace.current);
+        state = state.copyWith(
+          latestTab: state.latestTab.copyWith(
+            news: AsyncValue.error(failure.errorMessage, StackTrace.current),
+          ),
+        );
       },
-      (news) {
-        state = AsyncValue.data(news);
+      (news) async {
+        final result = await _newsRepository.fetchCategoriesWithNews(
+          pageSize: 2,
+          isLatest: true,
+          forYou: false,
+        );
+        result.fold(
+          (failure) {
+            return;
+          },
+          (categoriesWithNews) {
+            state = state.copyWith(
+              latestTab: state.latestTab.copyWith(
+                news: AsyncValue.data(news),
+                categoryNews: AsyncValue.data(categoriesWithNews),
+              ),
+            );
+          },
+        );
       },
     );
   }
 
-  /// Refresh news
-  Future<void> refresh() async {
-    await fetchNews();
+  /// Fetch personalized news (For You)
+  Future<void> fetchPersonalizedNews() async {
+    state = state.copyWith(
+      forYouTab: state.forYouTab.copyWith(news: const AsyncValue.loading()),
+    );
+
+    final result = await _newsRepository.fetchNews(
+      forYou: true,
+      isLatest: true,
+    );
+
+    await result.fold(
+      (failure) {
+        state = state.copyWith(
+          forYouTab: state.forYouTab.copyWith(
+            news: AsyncValue.error(failure.errorMessage, StackTrace.current),
+          ),
+        );
+      },
+      (news) async {
+        final result = await _newsRepository.fetchCategoriesWithNews(
+          pageSize: 2,
+          isLatest: true,
+          forYou: true,
+        );
+        result.fold(
+          (failure) {
+            return;
+          },
+          (categoriesWithNews) {
+            state = state.copyWith(
+              forYouTab: state.forYouTab.copyWith(
+                news: AsyncValue.data(news),
+                categoryNews: AsyncValue.data(categoriesWithNews),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  /// TOGGLE SAVE BUTTON
+  Future<void> toogleSaveButton({
+    required String newsId,
+    required bool currentStatus,
+  }) async {
+    state = state.withUpdatedNewsStatus(newsId, !currentStatus);
+
+    if (currentStatus) {
+      final result = await _newsRepository.deleteSavedNews(savedNewsId: newsId);
+      result.fold(
+        (failure) => state = state.withUpdatedNewsStatus(newsId, currentStatus),
+        (_) {},
+      );
+    } else {
+      final result = await _newsRepository.saveNews(newsId: newsId);
+      result.fold(
+        (failure) => state = state.withUpdatedNewsStatus(newsId, currentStatus),
+        (_) {},
+      );
+    }
+  }
+
+  /// Refresh popular news
+  Future<void> latestPopularNews() async {
+    await fetchLastNews();
+  }
+
+  /// Refresh personalized news
+  Future<void> refreshPersonalizedNews() async {
+    await fetchPersonalizedNews();
   }
 }

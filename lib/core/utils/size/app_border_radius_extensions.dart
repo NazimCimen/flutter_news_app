@@ -3,7 +3,7 @@ import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 import 'package:flutter_news_app/core/utils/size/dynamic_size.dart';
 
 extension ConstantBorderRadiusExtension on BuildContext {
-  BorderRadius get cBorderRadiusAllLow => BorderRadius.circular(cSmallValue);
+  BorderRadius get cBorderRadiusAllSmall => BorderRadius.circular(cSmallValue);
   BorderRadius get cBorderRadiusAllMedium =>
       BorderRadius.circular(cMediumValue);
   BorderRadius get cBorderRadiusAllLarge => BorderRadius.circular(cLargeValue);

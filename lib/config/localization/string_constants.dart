@@ -28,7 +28,7 @@ final class StringConstants {
   static String get searchSourceHint => 'Search for a source...';
   static String get saveButton => 'Save';
   static String get noSource => 'No sources found..';
-  static String get unknownCategory=> 'Unknown Category';
+  static String get unknownCategory => 'Unknown Category';
 
   // ============================================================================
   // AUTH FEATURE
@@ -53,9 +53,73 @@ final class StringConstants {
   // ============================================================================
   // NAVIGATION
   // ============================================================================
-  static String get navHome => 'Anasayfa';
-  static String get navAgenda => 'e-gündem';
-  static String get navAlerts => 'Alarmlar';
-  static String get navSaved => 'Kaydedilenler';
-  static String get navLocal => 'Yerel';
+  static String get navHome => 'Home';
+  static String get navAgenda => 'Agenda';
+  static String get navAlerts => 'Alerts';
+  static String get navSaved => 'Saved';
+  static String get navLocal => 'Local';
+
+  // ============================================================================
+  // HOME FEATURE
+  // ============================================================================
+  static String get tabLatestNews => 'Latest News';
+  static String get tabForYou => 'For You';
+  static String get tabTwitter => 'Twitter';
+  static String get tabYouTube => 'YouTube';
+  static String get popular => 'Popular';
+  static String get forYou => 'For You';
+  static String get popularNews => 'Popular News';
+  static String get noNewsYet => 'No news yet';
+  static String get errorOccurred => 'An error occurred';
+  static String get tryAgain => 'Try Again';
+  static String get noTitle => 'No Title';
+  static String get unknownSource => 'Unknown Source';
+  static String get general => 'General';
+  static String get comingSoon => 'Coming Soon';
+  static String get contentPlaceholder => 'content';
+  static String get showMore => 'Show More';
+  static String get minutesAgo => 'Minutes Ago';
+  static String get hoursAgo => 'Hours Ago';
+  static String get daysAgo => 'Days Ago';
+
+  // ============================================================================
+  // SAVED NEWS FEATURE
+  // ============================================================================
+  static String get savedNews => 'Saved News';
+  static String get noSavedNews => 'No saved news yet';
+  static String get saveNewsToSeeHere => 'Save news articles to see them here';
+  static String get deleteSavedNews => 'Delete Saved News';
+  static String get deleteSavedNewsConfirmation =>
+      'Are you sure you want to delete this saved news?';
+  static String get cancel => 'Cancel';
+  static String get delete => 'Delete';
+  static String get newsDeletedSuccessfully => 'News deleted successfully';
+  static String get failedToDeleteNews => 'Failed to delete news';
+  static String get newsSavedSuccessfully => 'News saved successfully';
+  static String get failedToSaveNews => 'Failed to save news';
+
+  static const List<String> weekDays = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+  ];
+
+  static const List<String> months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 }

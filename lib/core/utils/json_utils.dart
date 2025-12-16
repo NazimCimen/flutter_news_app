@@ -1,10 +1,13 @@
+import 'package:flutter/foundation.dart';
+
 /// JSON transformation utilities
-class JsonUtils {
-  JsonUtils._();
+@immutable
+final class JsonUtils {
+  const JsonUtils._();
 
   /// Backend sometimes sends field names with underscores (_id, _title, etc.)
   /// This function removes underscores to convert to standard format
-  /// 
+  ///
   /// Example:
   /// ```dart
   /// {'_id': '123', '_title': 'Hello'} -> {'id': '123', 'title': 'Hello'}

@@ -32,7 +32,7 @@ final class CustomButtonWidget extends StatelessWidget {
                   vertical: context.cMediumValue * 0.95,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: context.cBorderRadiusAllLow,
+                  borderRadius: context.cBorderRadiusAllSmall,
                 ),
               ),
               onPressed: onPressed,
@@ -60,7 +60,7 @@ final class CustomButtonWidget extends StatelessWidget {
                   ).colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: context.cBorderRadiusAllLow,
+                  borderRadius: context.cBorderRadiusAllSmall,
                 ),
               ),
               onPressed: onPressed,

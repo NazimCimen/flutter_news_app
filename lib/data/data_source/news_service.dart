@@ -5,6 +5,7 @@ import 'package:flutter_news_app/core/network/api_constants.dart';
 import 'package:flutter_news_app/core/network/dio_interceptor.dart';
 import 'package:flutter_news_app/core/network/dio_error_extension.dart';
 import 'package:flutter_news_app/core/utils/json_utils.dart';
+import 'package:flutter_news_app/data/model/category_with_news_model.dart';
 import 'package:flutter_news_app/data/model/news_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,11 +20,32 @@ abstract class NewsService {
     bool? forYou,
   });
 
-  /// FETCH NEWS BY CATEGORY
+  /// FETCH NEWS BY CATEGORY (with path parameter)
   Future<Either<Failure, List<NewsModel>>> fetchNewsByCategory({
     required String categoryId,
     int? page,
     int? pageSize,
+  });
+
+  /// FETCH CATEGORIES WITH NEWS
+  Future<Either<Failure, List<CategoryWithNewsModel>>> fetchCategoriesWithNews({
+    int? page,
+    int? pageSize,
+    bool? isLatest,
+    bool? forYou,
+  });
+
+  /// SAVE NEWS
+  Future<Either<Failure, Map<String, dynamic>>> saveNews({
+    required String newsId,
+  });
+
+  /// GET SAVED NEWS LIST
+  Future<Either<Failure, List<Map<String, dynamic>>>> getSavedNewsList();
+
+  /// DELETE SAVED NEWS
+  Future<Either<Failure, void>> deleteSavedNews({
+    required String savedNewsId,
   });
 }
 
@@ -39,7 +61,6 @@ class NewsServiceImpl implements NewsService {
   }) async {
     try {
       final queryParameters = <String, dynamic>{};
-
       if (isLatest != null) {
         queryParameters['isLatest'] = isLatest;
       }
@@ -86,9 +107,56 @@ class NewsServiceImpl implements NewsService {
       if (pageSize != null) {
         queryParameters['pageSize'] = pageSize;
       }
+      final endpoint = '${ApiConstants.newsByCategory}/$categoryId';
+      final response = await _dio.get<Map<String, dynamic>>(
+        endpoint,
+        queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
+      );
+      final data = response.data;
+      if (data == null ||
+          data['result'] == null ||
+          data['result']['items'] == null) {
+        return const Right([]);
+      }
+      final news = (data['result']['items'] as List).map((e) {
+        final jsonData = JsonUtils.removeUnderscores(e as Map<String, dynamic>);
+        return NewsModel.fromJson(jsonData);
+      }).toList();
+
+      return Right(news);
+    } on DioException catch (e) {
+      return Left(e.toFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CategoryWithNewsModel>>> fetchCategoriesWithNews({
+    int? page,
+    int? pageSize,
+    bool? isLatest,
+    bool? forYou,
+  }) async {
+    try {
+      final queryParameters = <String, dynamic>{};
+
+      if (page != null) {
+        queryParameters['page'] = page;
+      }
+
+      if (pageSize != null) {
+        queryParameters['pageSize'] = pageSize;
+      }
+
+      if (isLatest != null) {
+        queryParameters['isLatest'] = isLatest;
+      }
+
+      if (forYou != null) {
+        queryParameters['forYou'] = forYou;
+      }
 
       final response = await _dio.get<Map<String, dynamic>>(
-        '${ApiConstants.news}/category/$categoryId',
+        ApiConstants.categoriesWithNews,
         queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
       );
 
@@ -99,15 +167,79 @@ class NewsServiceImpl implements NewsService {
         return const Right([]);
       }
 
-      final news = (data['result']['items'] as List)
-          .map(
-            (e) => NewsModel.fromJson(
-              JsonUtils.removeUnderscores(e as Map<String, dynamic>),
-            ),
-          )
+      final categoriesWithNews = (data['result']['items'] as List).map((item) {
+        final categoryData = item['category'] as Map<String, dynamic>;
+        final newsList = item['news'] as List;
+
+        return CategoryWithNewsModel.fromJson({
+          'category': categoryData,
+          'news': newsList,
+        });
+      }).toList();
+
+      return Right(categoriesWithNews);
+    } on DioException catch (e) {
+      return Left(e.toFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>>> saveNews({
+    required String newsId,
+  }) async {
+    try {
+      final response = await _dio.post<Map<String, dynamic>>(
+        ApiConstants.savedNews,
+        data: {
+          'newsId': newsId,
+        },
+      );
+
+      final data = response.data;
+      if (data == null || data['result'] == null) {
+        return Left(
+          ServerFailure(errorMessage: 'Invalid response from server'),
+        );
+      }
+
+      return Right(data['result'] as Map<String, dynamic>);
+    } on DioException catch (e) {
+      return Left(e.toFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Map<String, dynamic>>>> getSavedNewsList() async {
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        ApiConstants.savedNews,
+      );
+
+      final data = response.data;
+      if (data == null || data['result'] == null) {
+        return const Right([]);
+      }
+
+      final savedNewsList = (data['result'] as List)
+          .map((e) => e as Map<String, dynamic>)
           .toList();
 
-      return Right(news);
+      return Right(savedNewsList);
+    } on DioException catch (e) {
+      return Left(e.toFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteSavedNews({
+    required String savedNewsId,
+  }) async {
+    try {
+      await _dio.delete<Map<String, dynamic>>(
+        '${ApiConstants.savedNews}/$savedNewsId',
+      );
+
+      return const Right(null);
     } on DioException catch (e) {
       return Left(e.toFailure());
     }

@@ -21,6 +21,7 @@ class NewsModel extends Equatable {
   final String? userName;
   final String? categoryName;
 
+
   const NewsModel({
     this.id,
     this.title,

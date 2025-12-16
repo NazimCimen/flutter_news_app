@@ -1,55 +1,103 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_news_app/core/utils/size/constant_size.dart';
-import 'package:flutter_news_app/data/model/news_model.dart';
-import 'package:flutter_news_app/feature/home/widgets/category_news_card.dart';
+part of 'news_tab.dart';
 
-class CategoryNewsSection extends StatelessWidget {
-  final String categoryName;
+/// Widget to display all category news sections
+class _CategoryNewsSection extends ConsumerWidget {
+  final bool isPopular;
+
+  const _CategoryNewsSection({required this.isPopular});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final homeState = ref.watch(homeViewModelProvider);
+    final tabState = isPopular
+        ? homeState.latestTab
+        : homeState.forYouTab;
+
+    return tabState.categoryNews.when(
+      data: (categoriesWithNews) {
+        if (categoriesWithNews.isEmpty) {
+          return const SizedBox.shrink();
+        }
+
+        return Column(
+          children: [
+            for (int i = 0; i < categoriesWithNews.length; i++) ...[
+              _CategoryNews(
+                category: categoriesWithNews[i].category,
+                news: categoriesWithNews[i].news,
+                onSeeMore: () {
+                  context.push(
+                    AppRoutes.categoryNews,
+                    extra: categoriesWithNews[i].category,
+                  );
+                },
+              ),
+              if (i < categoriesWithNews.length - 1)
+                SizedBox(height: context.cLargeValue),
+            ],
+          ],
+        );
+      },
+      loading: () => const CustomProgressIndicator(),
+      error: (error, stack) => CustomErrorWidget(errorMsg: error.toString()),
+    );
+  }
+}
+
+class _CategoryNews extends ConsumerWidget {
+  final CategoryModel category;
   final List<NewsModel> news;
   final VoidCallback onSeeMore;
 
-  const CategoryNewsSection({
-    required this.categoryName,
+  const _CategoryNews({
+    required this.category,
     required this.news,
     required this.onSeeMore,
-    super.key,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    // Show only first 2 news
-    final displayNews = news.take(2).toList();
+  Future<void> _handleBookmarkTap(
+    BuildContext context,
+    WidgetRef ref,
+    NewsModel news,
+  ) async {
+    if (news.id == null) return;
 
+    await ref.read(homeViewModelProvider.notifier).toogleSaveButton(
+      newsId: news.id!,
+      currentStatus: news.isSaved ?? false,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final buttonColor = ColorUtils.getCategorButtonColor(category.colorCode);
+    final textColor = ColorUtils.getContrastTextColor(buttonColor);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Category Header
         Padding(
           padding: EdgeInsets.symmetric(horizontal: context.cMediumValue),
           child: Row(
             children: [
-              // Red line indicator
               Container(
-                width: 4,
-                height: 20,
+                width: 8,
+                height: 22,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFF5252),
+                  color: buttonColor,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               SizedBox(width: context.cSmallValue),
-              
-              // Category name
+
               Expanded(
                 child: Text(
-                  categoryName,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  category.name ?? '',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
 
-              // "Daha Fazla Göster" link
               TextButton(
                 onPressed: onSeeMore,
                 style: TextButton.styleFrom(
@@ -58,9 +106,11 @@ class CategoryNewsSection extends StatelessWidget {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: Text(
-                  'Daha Fazla Göster',
+                  StringConstants.showMore,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.6),
                   ),
                 ),
               ),
@@ -70,14 +120,17 @@ class CategoryNewsSection extends StatelessWidget {
 
         SizedBox(height: context.cMediumValue),
 
-        // News Cards
         Padding(
           padding: EdgeInsets.symmetric(horizontal: context.cMediumValue),
           child: Column(
             children: [
-              for (int i = 0; i < displayNews.length; i++) ...[
-                CategoryNewsCard(news: displayNews[i]),
-                if (i < displayNews.length - 1) SizedBox(height: context.cSmallValue),
+              for (int i = 0; i < news.length; i++) ...[
+                CategoryNewsCard(
+                  news: news[i],
+                  onBookmarkTap: () =>
+                      _handleBookmarkTap(context, ref, news[i]),
+                ),
+                if (i < news.length - 1) SizedBox(height: context.cMediumValue),
               ],
             ],
           ),
@@ -85,13 +138,12 @@ class CategoryNewsSection extends StatelessWidget {
 
         SizedBox(height: context.cMediumValue),
 
-        // "Daha Fazla Göster" Button
         Center(
           child: ElevatedButton(
             onPressed: onSeeMore,
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFF5252),
-              foregroundColor: Colors.white,
+              backgroundColor: buttonColor,
+              foregroundColor: textColor,
               padding: EdgeInsets.symmetric(
                 horizontal: context.cLargeValue,
                 vertical: context.cSmallValue * 1.2,
@@ -102,9 +154,9 @@ class CategoryNewsSection extends StatelessWidget {
               elevation: 0,
             ),
             child: Text(
-              'Daha Fazla Göster',
+              StringConstants.showMore,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.white,
+                color: textColor,
                 fontWeight: FontWeight.w600,
               ),
             ),

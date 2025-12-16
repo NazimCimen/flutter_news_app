@@ -44,23 +44,23 @@ final class CustomInputDecoration {
       vertical: context.cMediumValue,
     ),
     border: OutlineInputBorder(
-      borderRadius: context.cBorderRadiusAllLow,
+      borderRadius: context.cBorderRadiusAllSmall,
       borderSide: BorderSide.none,
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: context.cBorderRadiusAllLow,
+      borderRadius: context.cBorderRadiusAllSmall,
       borderSide: BorderSide(
         color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
       ),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: context.cBorderRadiusAllLow,
+      borderRadius: context.cBorderRadiusAllSmall,
       borderSide: BorderSide(
-        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.5),
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
       ),
     ),
     errorBorder: OutlineInputBorder(
-      borderRadius: context.cBorderRadiusAllLow,
+      borderRadius: context.cBorderRadiusAllSmall,
       borderSide: const BorderSide(color: Colors.red),
     ),
   );

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_news_app/feature/home/viewmodel/home_view_model.dart';
 import 'package:flutter_news_app/feature/home/widgets/news_tab.dart';
+import 'package:flutter_news_app/feature/twitter/view/twitter_tab_view.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
+import 'package:flutter_news_app/config/localization/string_constants.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -36,17 +37,17 @@ class _HomePageState extends ConsumerState<HomePage>
           TabBar(
             padding: EdgeInsets.symmetric(horizontal: context.cMediumValue),
             controller: _tabController,
-            indicatorColor: const Color(0xFFFF5252),
-            labelColor: const Color(0xFFFF5252),
+            indicatorColor: Theme.of(context).colorScheme.secondary,
+            labelColor: Theme.of(context).colorScheme.secondary,
             labelStyle: Theme.of(context).textTheme.bodySmall,
             unselectedLabelStyle: Theme.of(context).textTheme.bodySmall,
             dividerColor: Colors.transparent,
             labelPadding: EdgeInsets.zero,
-            tabs: const [
-              Tab(text: 'Son Haberler'),
-              Tab(text: 'Sana Özel'),
-              Tab(text: 'Twitter'),
-              Tab(text: 'YouTube'),
+            tabs: [
+              Tab(text: StringConstants.tabLatestNews),
+              Tab(text: StringConstants.tabForYou),
+              Tab(text: StringConstants.tabTwitter),
+              Tab(text: StringConstants.tabYouTube),
             ],
           ),
 
@@ -55,39 +56,11 @@ class _HomePageState extends ConsumerState<HomePage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                NewsTab(provider: popularNewsProvider),
-                NewsTab(provider: personalizedNewsProvider),
-                _buildPlaceholder('Twitter'),
-                _buildPlaceholder('YouTube'),
+                const NewsTab(isPopular: true),
+                const NewsTab(isPopular: false),
+                const TwitterTabView(), 
+                Container(), 
               ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildPlaceholder(String title) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.construction_outlined,
-            size: 64,
-            color: Colors.grey.shade400,
-          ),
-          SizedBox(height: context.cMediumValue),
-          Text(
-            '$title içeriği',
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'Yakında eklenecek',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey.shade600,
             ),
           ),
         ],

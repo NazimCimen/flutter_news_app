@@ -40,13 +40,13 @@ final class CustomSnackBars {
         backgroundColor: Colors.green,
         duration: const Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.all(16),
+        margin: const EdgeInsets.all(8),
       ),
     );
   }
 
-  static void showError({
-    required BuildContext context,
+  static void showError(
+    BuildContext context, {
     required String message,
     VoidCallback? action,
     String? actionLabel,
@@ -63,10 +63,10 @@ final class CustomSnackBars {
         ),
         backgroundColor: Colors.red,
         behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.all(16),
+        margin: const EdgeInsets.all(8),
 
         action: SnackBarAction(
-          label: actionLabel ?? ' StringConstants.close',
+          label: actionLabel ?? '',
           textColor: Colors.white,
           onPressed: action ?? () => _hideCurrentSnackBar(context),
         ),

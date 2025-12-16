@@ -47,6 +47,8 @@ dependencies:
 
   # Animation & Effects
   shimmer: ^3.0.0 # Used for shimmer effect
+  carousel_slider: ^5.0.0 # Carousel slider for image/content sliders
+  smooth_page_indicator: ^1.2.0+3 # Smooth page indicators for carousels
   go_router: ^17.0.0
   flutter_riverpod: ^2.6.1
   flutter_secure_storage: ^10.0.0
