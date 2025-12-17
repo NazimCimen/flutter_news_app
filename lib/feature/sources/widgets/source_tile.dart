@@ -8,10 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SourceTile extends ConsumerWidget {
   final SourceModel source;
 
-  const SourceTile({
-    required this.source,
-    super.key,
-  });
+  const SourceTile({required this.source, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,33 +19,33 @@ class SourceTile extends ConsumerWidget {
           leading: _buildLeading(context),
           title: Text(
             source.name ?? '',
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge
-                ?.copyWith(fontWeight: FontWeight.w500),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
           ),
           trailing: Switch(
             thumbColor: WidgetStatePropertyAll<Color>(
               Theme.of(context).colorScheme.onSurface,
             ),
+            
             value: source.isFollowed ?? false,
             onChanged: (_) => ref
                 .read(selectSourcesViewModelProvider.notifier)
                 .toggleFollow(source.id ?? ''),
-            activeColor: Theme.of(context)
-                .colorScheme
-                .onSurface
-                .withValues(alpha: 0.2),
-            activeTrackColor: Theme.of(context)
-                .colorScheme
-                .onSurface
-                .withValues(alpha: 0.2),
+            activeColor: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.2),
+            activeTrackColor: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.2),
+            inactiveTrackColor: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.1),
           ),
         ),
         Divider(
           thickness: 0.7,
-          color:
-              Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
+          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.2),
         ),
       ],
     );
@@ -75,8 +72,9 @@ class SourceTile extends ConsumerWidget {
                 ),
               ),
               placeholder: (context, url) => Shimmer.fromColors(
-                baseColor:
-                    Theme.of(context).colorScheme.surfaceContainerHighest,
+                baseColor: Theme.of(
+                  context,
+                ).colorScheme.surfaceContainerHighest,
                 highlightColor: Theme.of(context).colorScheme.surface,
                 child: Container(
                   decoration: BoxDecoration(

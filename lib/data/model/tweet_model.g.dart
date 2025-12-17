@@ -7,14 +7,14 @@ part of 'tweet_model.dart';
 // **************************************************************************
 
 TweetModel _$TweetModelFromJson(Map<String, dynamic> json) => TweetModel(
-  id: json['id'] as String?,
-  accountId: json['accountId'] as String?,
-  accountName: json['accountName'] as String?,
-  accountImageUrl: json['accountImageUrl'] as String?,
-  content: json['content'] as String?,
-  createdAt: json['createdAt'] as String?,
-  isPopular: json['isPopular'] as bool?,
-);
+      id: json['id'] as String?,
+      accountId: json['accountId'] as String?,
+      accountName: json['accountName'] as String?,
+      accountImageUrl: json['accountImageUrl'] as String?,
+      content: json['content'] as String?,
+      createdAt: json['createdAt'] as String?,
+      isPopular: json['isPopular'] as bool?,
+    );
 
 Map<String, dynamic> _$TweetModelToJson(TweetModel instance) =>
     <String, dynamic>{

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/common/decorations/input_decorations/custom_input_decoration.dart';
+import 'package:flutter_news_app/common/decorations/custom_input_decoration.dart';
 import 'package:flutter_news_app/config/localization/string_constants.dart';
 
 class SourcesSearchBar extends StatefulWidget {

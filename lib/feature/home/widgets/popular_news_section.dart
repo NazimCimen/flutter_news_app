@@ -2,12 +2,9 @@ part of 'news_tab.dart';
 
 class _PopularNewsSection extends StatefulWidget {
   final List<NewsModel> news;
-  final Function(NewsModel)? onBookmarkTap;
+  final void Function(NewsModel)? onBookmarkTap;
 
-  const _PopularNewsSection({
-    required this.news,
-    this.onBookmarkTap,
-  });
+  const _PopularNewsSection({required this.news, this.onBookmarkTap});
 
   @override
   State<_PopularNewsSection> createState() => _PopularNewsSectionState();
@@ -33,7 +30,7 @@ class _PopularNewsSectionState extends State<_PopularNewsSection> {
           ),
         ),
         SizedBox(height: context.cMediumValue),
-        
+
         CarouselSlider.builder(
           carouselController: _carouselController,
           itemCount: itemCount,
@@ -59,9 +56,9 @@ class _PopularNewsSectionState extends State<_PopularNewsSection> {
             },
           ),
         ),
-        
+
         SizedBox(height: context.cMediumValue),
-        
+
         // Smooth page indicators
         Center(
           child: AnimatedSmoothIndicator(

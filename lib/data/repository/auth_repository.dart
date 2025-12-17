@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_news_app/config/localization/string_constants.dart';
-import 'package:flutter_news_app/core/network/network_info.dart';
+import 'package:flutter_news_app/core/connection/network_info.dart';
 import 'package:flutter_news_app/core/error/failure.dart';
-import 'package:flutter_news_app/data/data_source/auth_service.dart';
+import 'package:flutter_news_app/data/data_source/remote/auth_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
@@ -12,10 +12,13 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 });
 
 abstract class AuthRepository {
+  /// AUTHENTICATE USER WITH EMAIL AND PASSWORD
   Future<Either<Failure, void>> login({
     required String email,
     required String password,
   });
+  
+  /// REGISTER NEW USER WITH EMAIL AND PASSWORD
   Future<Either<Failure, void>> signup({
     required String email,
     required String password,

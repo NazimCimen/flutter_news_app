@@ -21,13 +21,15 @@ final class CustomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return SizedBox(
-      width: double.infinity,      height: context.cXLargeValue * 1.8,
+      width: double.infinity,
+      height: context.cXLargeValue * 1.8,
 
       child: buttonType == ButtonType.elevated
           ? ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
+                backgroundColor: colorScheme.primary,
                 padding: EdgeInsets.symmetric(
                   vertical: context.cMediumValue * 0.95,
                 ),
@@ -37,15 +39,19 @@ final class CustomButtonWidget extends StatelessWidget {
               ),
               onPressed: onPressed,
               child: isLoading
-                  ? Center(
-                    child: CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.surface,
+                  ? const SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: AppColors.white,
                       ),
-                  )
+                    )
                   : Text(
                       text,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppColors.background,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.white
                       ),
                     ),
             )
@@ -65,15 +71,18 @@ final class CustomButtonWidget extends StatelessWidget {
               ),
               onPressed: onPressed,
               child: isLoading
-                  ? Center(
-                    child: CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.surface,
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: colorScheme.primary,
                       ),
-                  )
+                    )
                   : Text(
                       text,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: AppColors.background,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
             ),

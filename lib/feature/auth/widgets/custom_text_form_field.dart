@@ -1,4 +1,4 @@
-import 'package:flutter_news_app/common/decorations/input_decorations/custom_input_decoration.dart';
+import 'package:flutter_news_app/common/decorations/custom_input_decoration.dart';
 import 'package:flutter/material.dart';
 
 /// Custom text form field for the app
@@ -33,10 +33,9 @@ class CustomTextFormField extends StatelessWidget {
         if (topLabel != null) ...[
           Text(
             topLabel!,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
         ],

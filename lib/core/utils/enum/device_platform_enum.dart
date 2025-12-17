@@ -1,4 +1,0 @@
-enum DevicePlatformEnum {
-  android,
-  ios,
-}

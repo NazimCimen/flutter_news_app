@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/config/routes/app_routes.dart';
@@ -16,15 +17,14 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeState = ref.watch(themeManagerProvider);
-
     return MaterialApp.router(
       theme: themeState.currentTheme,
       themeMode: themeState.themeMode,
       title: StringConstants.appName,
       debugShowCheckedModeBanner: false,
-      /* localizationsDelegates: context.localizationDelegates,
+      localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
-      locale: context.locale,*/
+      locale: context.locale,
       routerConfig: AppRoutes.router,
     );
   }

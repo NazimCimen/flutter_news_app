@@ -13,10 +13,10 @@ final class CustomColorScheme {
     onPrimary: Colors.white,
     secondary: AppColors.secondaryColor,
     onSecondary: Colors.white,
-    surface: AppColors.white,
+    surface:const Color(0xfff4f4f4),
     onSurface: Colors.black,
-
-    // primaryContainer: const Color(0xFF1c2127),
+    primaryContainer:Colors.white, // Hafif gri
+    // Çok açık gri
     error: Colors.red,
     onError: Colors.white,
     outline: AppColors.greyShade200,

@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
-import 'package:flutter_news_app/feature/twitter/view/twitter_tab.dart';
+import 'package:flutter_news_app/common/widgets/custom_error_widget.dart';
+import 'package:flutter_news_app/common/widgets/custom_progress_indicator.dart';
+import 'package:flutter_news_app/data/model/tweet_model.dart';
+import 'package:flutter_news_app/feature/home/widgets/no_news_item.dart';
+import 'package:flutter_news_app/feature/twitter/view_model/twitter_view_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_news_app/core/utils/size/app_border_radius_extensions.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+part '../widgets/tab_button.dart';
+part '../widgets/twitter_tab.dart';
+part '../widgets/tweet_card.dart';
+
+/// TWITTER TAB VIEW WITH NESTED SCROLL (COLLAPSIBLE TAB BUTTONS)
 class TwitterTabView extends StatefulWidget {
   const TwitterTabView({super.key});
 
@@ -18,6 +31,9 @@ class _TwitterTabViewState extends State<TwitterTabView>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -28,103 +44,49 @@ class _TwitterTabViewState extends State<TwitterTabView>
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Column(
-      children: [
-        // Rounded Button Style Tab Selector
-        Padding(
-          padding: EdgeInsets.all(context.cMediumValue),
-          child: Row(
-            children: [
-              // Popüler Button
-              GestureDetector(
-                onTap: () => _tabController.animateTo(0),
-                child: AnimatedBuilder(
-                  animation: _tabController,
-                  builder: (context, child) {
-                    final isSelected = _tabController.index == 0;
-                    return Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: context.cLargeValue,
-                        vertical: context.cSmallValue,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? colorScheme.surface
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: isSelected
-                              ? colorScheme.outline.withValues(alpha: 0.3)
-                              : Colors.transparent,
-                        ),
-                      ),
-                      child: Text(
-                        StringConstants.popular,
-                        style: textTheme.bodyMedium?.copyWith(
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.normal,
-                          color: isSelected
-                              ? colorScheme.onSurface
-                              : colorScheme.onSurface.withValues(alpha: 0.6),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+    return NestedScrollView(
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return [
+          SliverAppBar(
+            floating: true,
+            snap: true,
+            automaticallyImplyLeading: false,
+            scrolledUnderElevation: 0,
+            toolbarHeight: 70,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            flexibleSpace: Padding(
+              padding: EdgeInsets.all(context.cMediumValue),
+              child: Row(
+                children: [
+                  _TabButton(
+                    label: StringConstants.popular,
+                    isSelected: _tabController.index == 0,
+                    onTap: () => _tabController.animateTo(0),
+                    tabController: _tabController,
+                    isPrimary: true,
+                  ),
+                  SizedBox(width: context.cSmallValue),
+                  _TabButton(
+                    label: StringConstants.forYou,
+                    isSelected: _tabController.index == 1,
+                    onTap: () => _tabController.animateTo(1),
+                    tabController: _tabController,
+                    isPrimary: false,
+                  ),
+                ],
               ),
-
-              SizedBox(width: context.cSmallValue),
-
-              // Sana Özel Button
-              GestureDetector(
-                onTap: () => _tabController.animateTo(1),
-                child: AnimatedBuilder(
-                  animation: _tabController,
-                  builder: (context, child) {
-                    final isSelected = _tabController.index == 1;
-                    return Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: context.cLargeValue,
-                        vertical: context.cSmallValue,
-                      ),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? colorScheme.onSurface
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        StringConstants.forYou,
-                        style: textTheme.bodyMedium?.copyWith(
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.normal,
-                          color: isSelected
-                              ? colorScheme.surface
-                              : colorScheme.onSurface.withValues(alpha: 0.6),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-
-        // TabBarView for Twitter sub-tabs
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: const [
-              TwitterTab(isPopular: true, key: ValueKey('twitter_popular')),
-              TwitterTab(isPopular: false, key: ValueKey('twitter_foryou')),
-            ],
-          ),
-        ),
-      ],
+        ];
+      },
+      /// TAB CONTENT (POPULAR / FOR YOU)
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          _TwitterTab(isPopular: true, key: ValueKey('twitter_popular')),
+          _TwitterTab(isPopular: false, key: ValueKey('twitter_foryou')),
+        ],
+      ),
     );
   }
 }

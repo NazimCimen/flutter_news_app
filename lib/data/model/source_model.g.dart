@@ -7,13 +7,13 @@ part of 'source_model.dart';
 // **************************************************************************
 
 SourceModel _$SourceModelFromJson(Map<String, dynamic> json) => SourceModel(
-  id: json['id'] as String?,
-  name: json['name'] as String?,
-  sourceCategoryId: json['sourceCategoryId'] as String?,
-  description: json['description'] as String?,
-  imageUrl: json['imageUrl'] as String?,
-  isFollowed: json['isFollowed'] as bool?,
-);
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      sourceCategoryId: json['sourceCategoryId'] as String?,
+      description: json['description'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      isFollowed: json['isFollowed'] as bool?,
+    );
 
 Map<String, dynamic> _$SourceModelToJson(SourceModel instance) =>
     <String, dynamic>{

@@ -11,7 +11,7 @@ import 'package:flutter_news_app/feature/auth/widgets/sign_up_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_news_app/feature/auth/view_model/auth_view_model.dart';
-import 'package:flutter_news_app/common/componets/custom_snack_bars.dart';
+import 'package:flutter_news_app/common/components/custom_snack_bars.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_news_app/config/routes/app_routes.dart';
 

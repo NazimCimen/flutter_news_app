@@ -70,6 +70,7 @@ class _SelectSourcesViewState extends ConsumerState<SelectSourcesView> {
           children: [
             /// SEARCH BAR
             SourcesSearchBar(controller: _searchController),
+            
             SizedBox(height: context.cMediumValue),
 
             /// CONTENT AREA (LOADING / ERROR / LIST)

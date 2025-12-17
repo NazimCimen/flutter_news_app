@@ -1,4 +1,4 @@
-import 'package:flutter_news_app/common/decorations/input_decorations/custom_input_decoration.dart';
+import 'package:flutter_news_app/common/decorations/custom_input_decoration.dart';
 import 'package:flutter_news_app/core/utils/app_validators.dart';
 import 'package:flutter_news_app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';

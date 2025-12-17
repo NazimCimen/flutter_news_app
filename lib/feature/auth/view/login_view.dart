@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_news_app/feature/auth/widgets/forget_password_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_news_app/feature/auth/view_model/auth_view_model.dart';
-import 'package:flutter_news_app/common/componets/custom_snack_bars.dart';
+import 'package:flutter_news_app/common/components/custom_snack_bars.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginView extends ConsumerStatefulWidget {

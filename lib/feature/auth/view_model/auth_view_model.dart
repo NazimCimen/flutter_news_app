@@ -2,14 +2,24 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_news_app/data/repository/auth_repository.dart';
 
 final authViewModelProvider =
-    StateNotifierProvider<AuthViewModel, AsyncValue<void>>((ref) {
-      return AuthViewModel(ref.read(authRepositoryProvider));
-    });
+    StateNotifierProvider<AuthViewModelBase, AsyncValue<void>>((ref) {
+  return AuthViewModel(ref.read(authRepositoryProvider));
+});
 
-class AuthViewModel extends StateNotifier<AsyncValue<void>> {
+    abstract class AuthViewModelBase
+    extends StateNotifier<AsyncValue<void>> {
+  AuthViewModelBase() : super(const AsyncData(null));
+
+  Future<void> login(String email, String password);
+
+  Future<void> signup(String email, String password, String name);
+}
+
+class AuthViewModel extends AuthViewModelBase {
   final AuthRepository _authRepository;
 
-  AuthViewModel(this._authRepository) : super(const AsyncData(null));
+  AuthViewModel(this._authRepository) ;
+  @override
 
   Future<void> login(String email, String password) async {
     state = const AsyncLoading();
@@ -24,6 +34,7 @@ class AuthViewModel extends StateNotifier<AsyncValue<void>> {
       (_) => const AsyncData(null),
     );
   }
+  @override
 
   Future<void> signup(String email, String password, String name) async {
     state = const AsyncLoading();

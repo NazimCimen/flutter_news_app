@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 final class StringConstants {
   const StringConstants._();
 
-  /// App name
   static String get appName => 'NEWS APP';
-
+  static String get version => '1.0.0';
   // ============================================================================
   // COMMON ERROR MESSAGES
   // ============================================================================

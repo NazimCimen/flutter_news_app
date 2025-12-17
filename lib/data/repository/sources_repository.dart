@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_news_app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/error/failure.dart';
-import 'package:flutter_news_app/core/network/network_info.dart';
-import 'package:flutter_news_app/data/data_source/sources_service.dart';
+import 'package:flutter_news_app/core/connection/network_info.dart';
+import 'package:flutter_news_app/data/data_source/remote/sources_service.dart';
 import 'package:flutter_news_app/data/model/source_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,11 +14,13 @@ final sourcesRepositoryProvider = Provider<SourcesRepository>((ref) {
 });
 
 abstract class SourcesRepository {
+  /// FETCH ALL AVAILABLE NEWS SOURCES
   Future<Either<Failure, List<SourceModel>>> fetchSources();
-  Future<Either<Failure, List<SourceModel>>> searchSources(String query);
+  
+  /// FETCH USER'S FOLLOWED NEWS SOURCES
   Future<Either<Failure, List<SourceModel>>> fetchFollowedSources();
-  Future<Either<Failure, void>> followSource(String sourceId);
-  Future<Either<Failure, void>> unfollowSource(String sourceId);
+  
+  /// UPDATE MULTIPLE SOURCE FOLLOW STATUSES AT ONCE
   Future<Either<Failure, void>> bulkFollow(List<Map<String, dynamic>> updates);
 }
 
@@ -42,15 +44,6 @@ class SourcesRepositoryImpl implements SourcesRepository {
     return _sourcesService.fetchSources();
   }
 
-  @override
-  Future<Either<Failure, List<SourceModel>>> searchSources(String query) async {
-    if (!await _networkInfo.currentConnectivityResult) {
-      return Left(
-        ConnectionFailure(errorMessage: StringConstants.noInternetConnection),
-      );
-    }
-    return _sourcesService.searchSources(query);
-  }
 
   @override
   Future<Either<Failure, List<SourceModel>>> fetchFollowedSources() async {
@@ -62,25 +55,7 @@ class SourcesRepositoryImpl implements SourcesRepository {
     return _sourcesService.fetchFollowedSources();
   }
 
-  @override
-  Future<Either<Failure, void>> followSource(String sourceId) async {
-    if (!await _networkInfo.currentConnectivityResult) {
-      return Left(
-        ConnectionFailure(errorMessage: StringConstants.noInternetConnection),
-      );
-    }
-    return _sourcesService.followSource(sourceId);
-  }
 
-  @override
-  Future<Either<Failure, void>> unfollowSource(String sourceId) async {
-    if (!await _networkInfo.currentConnectivityResult) {
-      return Left(
-        ConnectionFailure(errorMessage: StringConstants.noInternetConnection),
-      );
-    }
-    return _sourcesService.unfollowSource(sourceId);
-  }
 
   @override
   Future<Either<Failure, void>> bulkFollow(

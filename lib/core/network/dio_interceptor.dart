@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 final secureStorageProvider = Provider<FlutterSecureStorage>(
   (_) => const FlutterSecureStorage(),
@@ -20,7 +21,10 @@ final dioProvider = Provider<Dio>((ref) {
   dio.interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) async {
-        options.headers['x-api-key'] = 'test-api-key';
+        final apiKey = dotenv.env['API_KEY'];
+        if (apiKey != null && apiKey.isNotEmpty) {
+          options.headers['x-api-key'] = apiKey;
+        }
 
         final accessToken = await secureStorage.read(key: 'accessToken');
 

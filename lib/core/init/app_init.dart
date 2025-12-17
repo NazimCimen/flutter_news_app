@@ -1,12 +1,13 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_news_app/core/di/di_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/main.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_news_app/config/localization/locale_constants.dart';
+import 'package:flutter_news_app/data/model/cached_news_data.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// App init for the app
 abstract class AppInit {
@@ -21,6 +22,7 @@ abstract class AppInit {
 }
 
 class AppInitImpl extends AppInit {
+
   @override
   Widget getApp() {
     return EasyLocalization(
@@ -42,14 +44,24 @@ class AppInitImpl extends AppInit {
   @override
   Future<void> initialize() async {
     WidgetsFlutterBinding.ensureInitialized();
+    
+    await dotenv.load();
+    
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
     await EasyLocalization.ensureInitialized();
+    
+    // Initialize Hive
     await Hive.initFlutter();
-
-    setupDI();
+    
+    // Register Hive adapters
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(CachedNewsDataAdapter());
+    }
+    
+   
   }
 
   @override
