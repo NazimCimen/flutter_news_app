@@ -1,7 +1,7 @@
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/data/model/source_model.dart';
+import 'package:flutter_news_app/app/data/model/source_model.dart';
 import 'package:flutter_news_app/feature/sources/view_model/select_sources_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,7 +27,7 @@ class SourceTile extends ConsumerWidget {
             thumbColor: WidgetStatePropertyAll<Color>(
               Theme.of(context).colorScheme.onSurface,
             ),
-            
+
             value: source.isFollowed ?? false,
             onChanged: (_) => ref
                 .read(selectSourcesViewModelProvider.notifier)

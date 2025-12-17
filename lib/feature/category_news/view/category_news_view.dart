@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/common/widgets/custom_error_widget.dart';
-import 'package:flutter_news_app/common/widgets/custom_progress_indicator.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/common/widgets/custom_error_widget.dart';
+import 'package:flutter_news_app/app/common/widgets/custom_progress_indicator.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/utils/color_utils.dart';
 import 'package:flutter_news_app/core/utils/size/app_border_radius_extensions.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
-import 'package:flutter_news_app/data/model/category_model.dart';
-import 'package:flutter_news_app/data/model/news_model.dart';
+import 'package:flutter_news_app/app/data/model/category_model.dart';
+import 'package:flutter_news_app/app/data/model/news_model.dart';
 import 'package:flutter_news_app/feature/category_news/mixin/category_news_mixin.dart';
 import 'package:flutter_news_app/feature/category_news/view_model/category_news_view_model.dart';
 import 'package:flutter_news_app/feature/category_news/widgets/category_news_card.dart';

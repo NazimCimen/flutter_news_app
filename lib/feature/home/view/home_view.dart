@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_news_app/feature/home/widgets/news_tab.dart';
 import 'package:flutter_news_app/feature/twitter/view/twitter_tab_view.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 
+/// HOME PAGE WIDGET - MAIN SCREEN WITH TAB NAVIGATION
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
@@ -12,6 +13,7 @@ class HomePage extends ConsumerStatefulWidget {
   ConsumerState<HomePage> createState() => _HomePageState();
 }
 
+/// HOME PAGE STATE - MANAGES TAB CONTROLLER AND NAVIGATION
 class _HomePageState extends ConsumerState<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
@@ -33,7 +35,7 @@ class _HomePageState extends ConsumerState<HomePage>
     return Scaffold(
       body: Column(
         children: [
-          // TabBar
+          /// TAB BAR - NAVIGATION BETWEEN LATEST, FOR YOU, TWITTER, YOUTUBE
           TabBar(
             padding: EdgeInsets.symmetric(horizontal: context.cMediumValue),
             controller: _tabController,
@@ -51,15 +53,15 @@ class _HomePageState extends ConsumerState<HomePage>
             ],
           ),
 
-          // TabBarView
+          /// TAB BAR VIEW - DISPLAYS CONTENT FOR EACH TAB
           Expanded(
             child: TabBarView(
               controller: _tabController,
               children: [
                 const NewsTab(isPopular: true),
                 const NewsTab(isPopular: false),
-                const TwitterTabView(), 
-                Container(), 
+                const TwitterTabView(),
+                Container(),
               ],
             ),
           ),

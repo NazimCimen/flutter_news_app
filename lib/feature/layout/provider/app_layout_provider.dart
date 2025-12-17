@@ -1,42 +1,42 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Provider for managing app layout navigation state
+/// APP LAYOUT PROVIDER - MANAGES NAVIGATION BETWEEN TABS
 final appLayoutProvider = StateNotifierProvider<AppLayoutNotifier, int>((ref) {
   return AppLayoutNotifier();
 });
 
-/// Notifier for managing the current tab index
+/// NOTIFIER FOR MANAGING THE CURRENT TAB INDEX
 class AppLayoutNotifier extends StateNotifier<int> {
   AppLayoutNotifier() : super(0);
 
-  /// Change the current navigation index
+  /// CHANGE THE CURRENT NAVIGATION INDEX
   void changeTab(int index) {
     if (index >= 0 && index < 5) {
       state = index;
     }
   }
 
-  /// Navigate to Home tab
+  /// NAVIGATE TO HOME TAB
   void goToHome() {
     state = 0;
   }
 
-  /// Navigate to Agenda tab
+  /// NAVIGATE TO AGENDA TAB
   void goToAgenda() {
     state = 1;
   }
 
-  /// Navigate to Breaking News tab
+  /// NAVIGATE TO BREAKING NEWS TAB
   void goToBreakingNews() {
     state = 2;
   }
 
-  /// Navigate to Saved tab
+  /// NAVIGATE TO SAVED TAB
   void goToSaved() {
     state = 3;
   }
 
-  /// Navigate to Local tab
+  /// NAVIGATE TO LOCAL TAB
   void goToLocalNews() {
     state = 4;
   }

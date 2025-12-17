@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_news_app/data/model/category_with_news_model.dart';
-import 'package:flutter_news_app/data/model/news_model.dart';
+import 'package:flutter_news_app/app/data/model/category_with_news_model.dart';
+import 'package:flutter_news_app/app/data/model/news_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Home state class - manages news tabs
+/// HOME STATE CLASS - MANAGES NEWS TABS
 class HomeState extends Equatable {
   final NewsTabState latestTab;
   final NewsTabState forYouTab;
@@ -13,10 +13,7 @@ class HomeState extends Equatable {
     this.forYouTab = const NewsTabState(),
   });
 
-  HomeState copyWith({
-    NewsTabState? latestTab,
-    NewsTabState? forYouTab,
-  }) {
+  HomeState copyWith({NewsTabState? latestTab, NewsTabState? forYouTab}) {
     return HomeState(
       latestTab: latestTab ?? this.latestTab,
       forYouTab: forYouTab ?? this.forYouTab,
@@ -27,7 +24,7 @@ class HomeState extends Equatable {
   List<Object?> get props => [latestTab, forYouTab];
 }
 
-/// News tab state - represents a single tab's data (Latest or For You)
+/// NEWS TAB STATE - REPRESENTS A SINGLE TAB'S DATA (LATEST OR FOR YOU)
 class NewsTabState extends Equatable {
   final AsyncValue<List<NewsModel>> news;
   final AsyncValue<List<CategoryWithNewsModel>> categoryNews;
@@ -51,17 +48,17 @@ class NewsTabState extends Equatable {
   List<Object?> get props => [news, categoryNews];
 }
 
-/// Extension for updating news saved status in NewsTabState
+/// EXTENSION FOR UPDATING NEWS SAVED STATUS IN NEWSTABSTATE
 extension NewsTabStateExtensions on NewsTabState {
-  /// Update isSaved status for a specific news in this tab
+  /// UPDATE ISSAVED STATUS FOR A SPECIFIC NEWS IN THIS TAB
   NewsTabState withUpdatedNewsStatus(String newsId, bool isSaved) {
-    // Update news if it has data
+    /// UPDATE NEWS IF IT HAS DATA
     AsyncValue<List<NewsModel>>? updatedNews;
     news.whenData((newsList) {
       updatedNews = AsyncValue.data(_updateNewsList(newsList, newsId, isSaved));
     });
 
-    // Update categoryNews if it has data
+    /// UPDATE CATEGORYNEWS IF IT HAS DATA
     AsyncValue<List<CategoryWithNewsModel>>? updatedCategoryNews;
     categoryNews.whenData((categories) {
       updatedCategoryNews = AsyncValue.data(
@@ -75,7 +72,7 @@ extension NewsTabStateExtensions on NewsTabState {
     );
   }
 
-  /// Update isSaved status in a news list
+  /// UPDATE ISSAVED STATUS IN A NEWS LIST
   List<NewsModel> _updateNewsList(
     List<NewsModel> newsList,
     String newsId,
@@ -88,7 +85,7 @@ extension NewsTabStateExtensions on NewsTabState {
         .toList();
   }
 
-  /// Update isSaved status in categories with news
+  /// UPDATE ISSAVED STATUS IN CATEGORIES WITH NEWS
   List<CategoryWithNewsModel> _updateCategoriesList(
     List<CategoryWithNewsModel> categories,
     String newsId,
@@ -105,9 +102,9 @@ extension NewsTabStateExtensions on NewsTabState {
   }
 }
 
-/// Extension for updating news saved status in HomeState
+/// EXTENSION FOR UPDATING NEWS SAVED STATUS IN HOMESTATE
 extension HomeStateExtensions on HomeState {
-  /// Update isSaved status for a specific news across both tabs
+  /// UPDATE ISSAVED STATUS FOR A SPECIFIC NEWS ACROSS BOTH TABS
   HomeState withUpdatedNewsStatus(String newsId, bool isSaved) {
     return copyWith(
       latestTab: latestTab.withUpdatedNewsStatus(newsId, isSaved),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/common/widgets/custom_error_widget.dart';
-import 'package:flutter_news_app/common/widgets/custom_progress_indicator.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
-import 'package:flutter_news_app/config/routes/app_routes.dart';
-import 'package:flutter_news_app/config/theme/app_colors.dart';
+import 'package:flutter_news_app/app/common/widgets/custom_error_widget.dart';
+import 'package:flutter_news_app/app/common/widgets/custom_progress_indicator.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/routes/app_routes.dart';
+import 'package:flutter_news_app/app/config/theme/app_colors.dart';
 import 'package:flutter_news_app/core/utils/color_utils.dart';
-import 'package:flutter_news_app/data/model/category_model.dart';
-import 'package:flutter_news_app/data/model/news_model.dart';
+import 'package:flutter_news_app/app/data/model/category_model.dart';
+import 'package:flutter_news_app/app/data/model/news_model.dart';
 import 'package:flutter_news_app/feature/category_news/widgets/category_news_card.dart';
 import 'package:flutter_news_app/feature/home/widgets/no_news_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,6 +22,7 @@ part 'category_news_section.dart';
 part 'popular_news_section.dart';
 part 'populer_news_card.dart';
 
+/// NEWS TAB WIDGET - DISPLAYS NEWS CONTENT FOR LATEST OR FOR YOU TAB
 class NewsTab extends ConsumerStatefulWidget {
   final bool isPopular;
 
@@ -31,38 +32,45 @@ class NewsTab extends ConsumerStatefulWidget {
   ConsumerState<NewsTab> createState() => _NewsTabState();
 }
 
+/// NEWS TAB STATE - MANAGES NEWS DISPLAY AND BOOKMARK INTERACTIONS
 class _NewsTabState extends ConsumerState<NewsTab> {
+  /// HANDLE BOOKMARK TAP - TOGGLE SAVE STATUS FOR NEWS ITEM
   Future<void> _handleBookmarkTap(NewsModel news) async {
     if (news.id == null) return;
 
-    await ref.read(homeViewModelProvider.notifier).toogleSaveButton(
-      newsId: news.id!,
-      currentStatus: news.isSaved ?? false,
-    );
+    await ref
+        .read(homeViewModelProvider.notifier)
+        .toogleSaveButton(
+          newsId: news.id!,
+          currentStatus: news.isSaved ?? false,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
+    /// WATCH HOME STATE AND SELECT APPROPRIATE TAB DATA
     final homeState = ref.watch(homeViewModelProvider);
     final tabState = widget.isPopular
         ? homeState.latestTab
         : homeState.forYouTab;
 
+    /// HANDLE DIFFERENT ASYNC STATES: DATA, LOADING, ERROR
     return tabState.news.when(
       data: (news) {
         if (news.isEmpty) {
           return const NoNewsItem();
         }
+        /// REFRESH INDICATOR - PULL TO REFRESH FUNCTIONALITY
         return RefreshIndicator(
           onRefresh: () async {
             if (widget.isPopular) {
               await ref
                   .read(homeViewModelProvider.notifier)
-                  .latestPopularNews();
+                  .fetchLastNews(forceRefresh: true);
             } else {
               await ref
                   .read(homeViewModelProvider.notifier)
-                  .refreshPersonalizedNews();
+                  .fetchPersonalizedNews(forceRefresh: true);
             }
           },
           child: SingleChildScrollView(
@@ -87,9 +95,9 @@ class _NewsTabState extends ConsumerState<NewsTab> {
         errorMsg: error.toString(),
         refreshOnPressed: () {
           if (widget.isPopular) {
-            ref.read(homeViewModelProvider.notifier).latestPopularNews();
+            ref.read(homeViewModelProvider.notifier).fetchLastNews(forceRefresh: true);
           } else {
-            ref.read(homeViewModelProvider.notifier).refreshPersonalizedNews();
+            ref.read(homeViewModelProvider.notifier).fetchPersonalizedNews(forceRefresh: true);
           }
         },
       ),

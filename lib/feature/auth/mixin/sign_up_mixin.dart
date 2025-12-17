@@ -4,6 +4,7 @@ import 'package:flutter_news_app/feature/auth/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// SIGNUP MIXIN IS USED TO MANAGE SIGNUP LOGIC
 mixin SignupMixin on ConsumerState<SignUpView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late final TextEditingController confirmPasswordController;
@@ -13,7 +14,7 @@ mixin SignupMixin on ConsumerState<SignUpView> {
   bool isGoogleLoading = false;
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
   bool obscureText = true;
-  bool isTermsAgreed = true; // Implied consent by clicking button
+  bool isTermsAgreed = true;
 
   @override
   void initState() {
@@ -31,10 +32,7 @@ mixin SignupMixin on ConsumerState<SignUpView> {
     super.dispose();
   }
 
-  /// Creates a new user account with provided credentials.
-  /// Returns nothing, state handled by view listener.
   Future<void> signupUser() async {
-    // Dismiss keyboard
     FocusScope.of(context).unfocus();
 
     validateFields();
@@ -49,8 +47,6 @@ mixin SignupMixin on ConsumerState<SignUpView> {
     }
   }
 
-  /// Validates form fields and terms agreement.
-  /// Updates request availability and shows appropriate messages.
   void validateFields() {
     if (formKey.currentState!.validate() && isTermsAgreed) {
       setState(() {
@@ -64,14 +60,12 @@ mixin SignupMixin on ConsumerState<SignUpView> {
     }
   }
 
-  /// Toggles password visibility in the password field.
   void togglePasswordVisibility() {
     setState(() {
       obscureText = !obscureText;
     });
   }
 
-  /// Sets request availability to false and updates UI state.
   void makeRequestUnavailable() {
     setState(() {
       isRequestAvailable = false;

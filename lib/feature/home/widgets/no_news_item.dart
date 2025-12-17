@@ -1,8 +1,8 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 
+/// NO NEWS ITEM WIDGET - DISPLAYS EMPTY STATE WHEN NO NEWS AVAILABLE
 class NoNewsItem extends StatelessWidget {
   const NoNewsItem({super.key});
 

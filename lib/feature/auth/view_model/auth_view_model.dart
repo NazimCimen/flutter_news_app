@@ -1,26 +1,29 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_news_app/data/repository/auth_repository.dart';
+import 'package:flutter_news_app/app/data/repository/auth_repository.dart';
 
+/// AUTH VIEW MODEL IS USED TO MANAGE AUTHENTICATION LOGIC
 final authViewModelProvider =
     StateNotifierProvider<AuthViewModelBase, AsyncValue<void>>((ref) {
-  return AuthViewModel(ref.read(authRepositoryProvider));
-});
+      return AuthViewModel(ref.read(authRepositoryProvider));
+    });
 
-    abstract class AuthViewModelBase
-    extends StateNotifier<AsyncValue<void>> {
+/// AUTH VIEW MODEL BASE IS USED TO MANAGE AUTHENTICATION LOGIC
+abstract class AuthViewModelBase extends StateNotifier<AsyncValue<void>> {
   AuthViewModelBase() : super(const AsyncData(null));
 
+  /// LOGIN FUNCTION IS USED TO LOGIN USER
   Future<void> login(String email, String password);
 
+  /// SIGNUP FUNCTION IS USED TO SIGNUP USER
   Future<void> signup(String email, String password, String name);
 }
 
+/// AUTH VIEW MODEL IS USED TO MANAGE AUTHENTICATION LOGIC
 class AuthViewModel extends AuthViewModelBase {
   final AuthRepository _authRepository;
 
-  AuthViewModel(this._authRepository) ;
+  AuthViewModel(this._authRepository);
   @override
-
   Future<void> login(String email, String password) async {
     state = const AsyncLoading();
 
@@ -34,8 +37,8 @@ class AuthViewModel extends AuthViewModelBase {
       (_) => const AsyncData(null),
     );
   }
-  @override
 
+  @override
   Future<void> signup(String email, String password, String name) async {
     state = const AsyncLoading();
     final result = await _authRepository.signup(

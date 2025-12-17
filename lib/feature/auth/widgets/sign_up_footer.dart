@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
-import 'package:flutter_news_app/config/routes/app_routes.dart';
-import 'package:flutter_news_app/config/theme/app_colors.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/routes/app_routes.dart';
+import 'package:flutter_news_app/app/config/theme/app_colors.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 import 'package:go_router/go_router.dart';
 
+/// SIGNUP FOOTER IS USED TO DISPLAY SIGNUP FOOTER
 class SignupFooter extends StatelessWidget {
   const SignupFooter({super.key});
 

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 
+/// APP VALIDATORS IS USED TO VALIDATE USER INPUTS
 @immutable
 final class AppValidators {
   const AppValidators._();
@@ -10,7 +11,7 @@ final class AppValidators {
   static const String passwordRegExp =
       r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$';
 
-  /// Validates email address format using regex pattern.
+  /// VALIDATES EMAIL ADDRESS
   static String? emailValidator(String? value) {
     if (value == null || value.trim().isEmpty) {
       return StringConstants.validationEmailRequired;
@@ -21,7 +22,7 @@ final class AppValidators {
     return null;
   }
 
-  /// Validates password with minimum length requirement.
+  /// VALIDATES PASSWORD
   static String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return StringConstants.validationPasswordRequired;

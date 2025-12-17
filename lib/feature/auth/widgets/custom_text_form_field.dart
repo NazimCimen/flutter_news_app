@@ -1,7 +1,7 @@
-import 'package:flutter_news_app/common/decorations/custom_input_decoration.dart';
+import 'package:flutter_news_app/app/common/decorations/custom_input_decoration.dart';
 import 'package:flutter/material.dart';
 
-/// Custom text form field for the app
+/// CUSTOM TEXT FORM FIELD IS USED TO DISPLAY TEXT FORM FIELD
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String? Function(String?)? validator;

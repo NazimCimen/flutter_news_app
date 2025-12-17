@@ -2,11 +2,14 @@
 enum CacheKeyEnum {
   /// KEY FOR CACHED POPULAR NEWS DATA (STORED IN POPULARNEWSBOX)
   popularNewsData,
+
+  /// KEY FOR ACCESS TOKEN (STORED IN POPULARNEWSBOX)
+  accessToken,
 }
 
 /// CACHE BOXES FOR DIFFERENT CACHE TYPES
 enum CacheHiveBoxEnum {
-  /// Box for popular news cache
+  /// BOX FOR POPULAR NEWS CACHE
   popularNewsCache,
 }
 
@@ -16,6 +19,9 @@ extension CacheKeyEnumExtension on CacheKeyEnum {
     switch (this) {
       case CacheKeyEnum.popularNewsData:
         return 'cached_news_data';
+
+      case CacheKeyEnum.accessToken:
+        return 'access token';
     }
   }
 }

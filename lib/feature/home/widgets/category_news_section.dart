@@ -1,6 +1,6 @@
 part of 'news_tab.dart';
 
-/// Widget to display all category news sections
+/// CATEGORY NEWS SECTION - DISPLAYS ALL CATEGORY NEWS SECTIONS
 class _CategoryNewsSection extends ConsumerWidget {
   final bool isPopular;
 
@@ -8,11 +8,13 @@ class _CategoryNewsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    /// WATCH HOME STATE AND SELECT APPROPRIATE TAB DATA
     final homeState = ref.watch(homeViewModelProvider);
     final tabState = isPopular
         ? homeState.latestTab
         : homeState.forYouTab;
 
+    /// HANDLE DIFFERENT ASYNC STATES FOR CATEGORY NEWS
     return tabState.categoryNews.when(
       data: (categoriesWithNews) {
         if (categoriesWithNews.isEmpty) {
@@ -44,6 +46,7 @@ class _CategoryNewsSection extends ConsumerWidget {
   }
 }
 
+/// CATEGORY NEWS WIDGET - DISPLAYS SINGLE CATEGORY WITH ITS NEWS
 class _CategoryNews extends ConsumerWidget {
   final CategoryModel category;
   final List<NewsModel> news;
@@ -55,6 +58,7 @@ class _CategoryNews extends ConsumerWidget {
     required this.onSeeMore,
   });
 
+  /// HANDLE BOOKMARK TAP - TOGGLE SAVE STATUS FOR NEWS ITEM
   Future<void> _handleBookmarkTap(
     BuildContext context,
     WidgetRef ref,
@@ -70,15 +74,18 @@ class _CategoryNews extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    /// GET CATEGORY COLOR AND CALCULATE CONTRAST TEXT COLOR
     final buttonColor = ColorUtils.getCategorButtonColor(category.colorCode);
     final textColor = ColorUtils.getContrastTextColor(buttonColor);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        /// CATEGORY HEADER - TITLE WITH COLOR INDICATOR AND SEE MORE BUTTON
         Padding(
           padding: EdgeInsets.symmetric(horizontal: context.cMediumValue),
           child: Row(
             children: [
+              /// CATEGORY COLOR INDICATOR BAR
               Container(
                 width: 8,
                 height: 22,
@@ -89,6 +96,7 @@ class _CategoryNews extends ConsumerWidget {
               ),
               SizedBox(width: context.cSmallValue),
 
+              /// CATEGORY NAME
               Expanded(
                 child: Text(
                   category.name ?? '',
@@ -98,6 +106,7 @@ class _CategoryNews extends ConsumerWidget {
                 ),
               ),
 
+              /// SEE MORE TEXT BUTTON
               TextButton(
                 onPressed: onSeeMore,
                 style: TextButton.styleFrom(
@@ -120,6 +129,7 @@ class _CategoryNews extends ConsumerWidget {
 
         SizedBox(height: context.cMediumValue),
 
+        /// NEWS LIST - DISPLAYS NEWS CARDS FOR THIS CATEGORY
         Padding(
           padding: EdgeInsets.symmetric(horizontal: context.cMediumValue),
           child: Column(
@@ -138,6 +148,7 @@ class _CategoryNews extends ConsumerWidget {
 
         SizedBox(height: context.cMediumValue),
 
+        /// SEE MORE BUTTON - NAVIGATES TO FULL CATEGORY PAGE
         Center(
           child: ElevatedButton(
             onPressed: onSeeMore,

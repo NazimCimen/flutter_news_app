@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
-import 'package:flutter_news_app/data/model/source_model.dart';
+import 'package:flutter_news_app/app/data/model/source_model.dart';
 import 'package:flutter_news_app/feature/sources/view_model/select_sources_view_model.dart';
 import 'package:flutter_news_app/feature/sources/widgets/source_tile.dart';
 import 'package:flutter_news_app/feature/splash/splash_view.dart';
@@ -15,11 +15,14 @@ class SourcesListView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sourcesAsync = ref.watch(selectSourcesViewModelProvider);
     final categoriesAsync = ref.watch(categoriesProvider);
-    
-    final categoryMap = categoriesAsync.valueOrNull?.fold<Map<String, String>>(
-      {},
-      (map, category) => map..putIfAbsent(category.id!, () => category.name!),
-    ) ?? {};
+
+    final categoryMap =
+        categoriesAsync.valueOrNull?.fold<Map<String, String>>(
+          {},
+          (map, category) =>
+              map..putIfAbsent(category.id!, () => category.name!),
+        ) ??
+        {};
 
     return sourcesAsync.when(
       data: (sources) {

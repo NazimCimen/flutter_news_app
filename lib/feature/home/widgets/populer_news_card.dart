@@ -1,5 +1,6 @@
 part of 'news_tab.dart';
 
+/// POPULAR NEWS CARD - DISPLAYS SINGLE NEWS ITEM IN CAROUSEL
 class _PopularNewsCard extends StatelessWidget {
   final NewsModel news;
   final VoidCallback? onBookmarkTap;
@@ -18,7 +19,7 @@ class _PopularNewsCard extends StatelessWidget {
       borderRadius: context.cBorderRadiusAllMedium,
       child: Stack(
         children: [
-          // Background Image with Loading
+          /// BACKGROUND IMAGE WITH LOADING SHIMMER EFFECT
           if (news.imageUrl != null)
             Positioned.fill(
               child: CachedNetworkImage(
@@ -43,7 +44,7 @@ class _PopularNewsCard extends StatelessWidget {
               child: Container(color: colorScheme.primary),
             ),
 
-          // Gradient Overlay
+          /// GRADIENT OVERLAY - DARKENS BOTTOM FOR TEXT READABILITY
           Positioned.fill(
             child: Container(
               decoration: BoxDecoration(
@@ -60,7 +61,7 @@ class _PopularNewsCard extends StatelessWidget {
             ),
           ),
 
-          // Category Badge (Top Left)
+          /// CATEGORY BADGE - DISPLAYS NEWS CATEGORY (TOP LEFT)
           if (news.categoryName != null)
             Positioned(
               top: 16,
@@ -84,7 +85,7 @@ class _PopularNewsCard extends StatelessWidget {
               ),
             ),
 
-          // Bookmark Icon (Top Right)
+          /// BOOKMARK ICON - SAVE/UNSAVE NEWS (TOP RIGHT)
           Positioned(
             top: 16,
             right: 16,
@@ -110,7 +111,7 @@ class _PopularNewsCard extends StatelessWidget {
             ),
           ),
 
-          // Content (Bottom)
+          /// CONTENT SECTION - TITLE AND SOURCE INFO (BOTTOM)
           Positioned(
             bottom: 0,
             left: 0,
@@ -121,7 +122,7 @@ class _PopularNewsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Title
+                  /// NEWS TITLE - DISPLAYS HEADLINE
                   Text(
                     news.title ?? StringConstants.noTitle,
                     style: textTheme.titleMedium?.copyWith(
@@ -141,10 +142,10 @@ class _PopularNewsCard extends StatelessWidget {
                   ),
                   SizedBox(height: context.cSmallValue),
 
-                  // Source Info
+                  /// SOURCE INFO - LOGO AND NAME
                   Row(
                     children: [
-                      // Source Logo
+                      /// SOURCE LOGO - CIRCULAR PROFILE PICTURE
                       if (news.sourceProfilePictureUrl != null)
                         Container(
                           width: 24,
@@ -170,7 +171,7 @@ class _PopularNewsCard extends StatelessWidget {
                         ),
                       SizedBox(width: context.cSmallValue),
 
-                      // Source Name
+                      /// SOURCE NAME - NEWS PROVIDER TITLE
                       Expanded(
                         child: Text(
                           news.sourceTitle ?? StringConstants.unknownSource,

@@ -3,6 +3,7 @@ import 'package:flutter_news_app/feature/auth/view_model/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// LOGIN MIXIN IS USED TO MANAGE LOGIN LOGIC
 mixin LoginMixin on ConsumerState<LoginView> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   late TextEditingController mailController;
@@ -26,10 +27,7 @@ mixin LoginMixin on ConsumerState<LoginView> {
     super.dispose();
   }
 
-  /// Attempts to log in user with email and password.
-  /// Returns nothing as state is handled by Riverpod listener in View.
   Future<void> loginUser() async {
-    // Dismiss keyboard
     FocusScope.of(context).unfocus();
     validateFields();
     if (isRequestAvailable) {
@@ -39,7 +37,6 @@ mixin LoginMixin on ConsumerState<LoginView> {
     }
   }
 
-  /// Validates form fields and updates request availability status.
   void validateFields() {
     if (formKey.currentState!.validate()) {
       setState(() {
@@ -52,14 +49,12 @@ mixin LoginMixin on ConsumerState<LoginView> {
     }
   }
 
-  /// Toggles password visibility in the password field.
   void togglePasswordVisibility() {
     setState(() {
       obscureText = !obscureText;
     });
   }
 
-  /// Sets request availability to false and updates UI state.
   void makeRequestUnavailable() {
     setState(() {
       isRequestAvailable = false;

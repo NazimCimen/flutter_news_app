@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/data/model/news_model.dart';
+import 'package:flutter_news_app/app/data/model/news_model.dart';
 import 'package:flutter_news_app/feature/category_news/view/category_news_view.dart';
 import 'package:flutter_news_app/feature/category_news/view_model/category_news_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,9 +28,7 @@ mixin CategoryNewsMixin on ConsumerState<CategoryNewsView> {
     setState(() => selectedCategoryId = newCategoryId);
 
     /// FETCH ONLY IF DATA NOT LOADED
-    final currentState = ref.read(
-      categoryNewsViewModelProvider(newCategoryId),
-    );
+    final currentState = ref.read(categoryNewsViewModelProvider(newCategoryId));
     if (currentState.pages == null || currentState.pages!.isEmpty) {
       ref
           .read(categoryNewsViewModelProvider(newCategoryId).notifier)

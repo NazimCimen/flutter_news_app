@@ -1,3 +1,5 @@
+/// FAILURES ARE USED FOR DARTZ FAILURE PATTERN.
+/// EITHER<FAILURE, T> IS USED TO INDICATE THAT A FUNCTION CAN RETURN A FAILURE OR A SUCCESS.
 abstract class Failure {
   final String errorMessage;
   final String? errorCode;

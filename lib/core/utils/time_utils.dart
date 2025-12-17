@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 
+/// TIME UTILS IS USED TO MANAGE TIME FORMATTING
 @immutable
 final class TimeUtils {
   const TimeUtils._();

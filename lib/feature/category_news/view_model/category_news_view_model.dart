@@ -1,12 +1,13 @@
-import 'package:flutter_news_app/data/model/news_model.dart';
-import 'package:flutter_news_app/data/repository/news_repository.dart';
+import 'package:flutter_news_app/app/data/model/news_model.dart';
+import 'package:flutter_news_app/app/data/repository/news_repository.dart';
+import 'package:flutter_news_app/app/common/helpers/date_formatter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-/// Provider for CategoryNewsViewModel
+/// PROVIDER FOR CATEGORY NEWS VIEW MODEL
 final categoryNewsViewModelProvider =
     StateNotifierProvider.family<
-      CategoryNewsViewModel,
+      CategoryNewsViewModelBase,
       PagingState<int, NewsModel>,
       String
     >((ref, categoryId) {
@@ -16,18 +17,34 @@ final categoryNewsViewModelProvider =
       );
     });
 
-/// ViewModel for Category News with pagination
-class CategoryNewsViewModel extends StateNotifier<PagingState<int, NewsModel>> {
+/// CATEGORY NEWS VIEW MODEL BASE - ABSTRACT CLASS FOR PAGINATION
+abstract class CategoryNewsViewModelBase extends StateNotifier<PagingState<int, NewsModel>> {
+  CategoryNewsViewModelBase() : super(PagingState<int, NewsModel>());
+
+  /// FETCH NEXT PAGE OF NEWS
+  Future<void> fetchNextPage();
+
+  /// REFRESH NEWS (RESET AND FETCH FIRST PAGE)
+  Future<void> refresh();
+
+  /// TOGGLE SAVE BUTTON (OPTIMISTIC UI UPDATE)
+  Future<void> toogleSaveButton({
+    required String newsId,
+    required bool currentStatus,
+  });
+}
+
+/// VIEWMODEL FOR CATEGORY NEWS WITH PAGINATION
+class CategoryNewsViewModel extends CategoryNewsViewModelBase {
   final String categoryId;
   final NewsRepository _newsRepository;
 
   CategoryNewsViewModel({
     required this.categoryId,
     required NewsRepository newsRepository,
-  }) : _newsRepository = newsRepository,
-       super(PagingState<int, NewsModel>());
+  }) : _newsRepository = newsRepository;
 
-  /// FETCH PAGED NEWS
+  @override
   Future<void> fetchNextPage() async {
     if (state.isLoading) return;
     state = state.copyWith(isLoading: true, error: null);
@@ -43,9 +60,10 @@ class CategoryNewsViewModel extends StateNotifier<PagingState<int, NewsModel>> {
         state = state.copyWith(error: failure.errorMessage, isLoading: false);
       },
       (newItems) {
-        final isLastPage = newItems.length < 10;
+        final formattedItems = DateFormatter.formatNewsDates(newItems);
+        final isLastPage = formattedItems.length < 10;
         state = state.copyWith(
-          pages: [...?state.pages, newItems],
+          pages: [...?state.pages, formattedItems],
           keys: [...?state.keys, newKey],
           hasNextPage: !isLastPage,
           isLoading: false,
@@ -54,21 +72,18 @@ class CategoryNewsViewModel extends StateNotifier<PagingState<int, NewsModel>> {
     );
   }
 
-  /// REFRESH PAGE
+  @override
   Future<void> refresh() async {
     state = PagingState<int, NewsModel>();
     await fetchNextPage();
   }
 
-  /// TOGGLE SAVE BUTTON (Optimistic UI Update)
+  @override
   Future<void> toogleSaveButton({
     required String newsId,
     required bool currentStatus,
   }) async {
-    // 1. Önce UI'ı güncelle (Optimistic Update)
     _updateNewsInState(newsId, !currentStatus);
-
-    // 2. Arka planda API çağrısı yap
     if (currentStatus) {
       final result = await _newsRepository.deleteSavedNews(savedNewsId: newsId);
       result.fold(
@@ -84,10 +99,9 @@ class CategoryNewsViewModel extends StateNotifier<PagingState<int, NewsModel>> {
     }
   }
 
-  /// Update news isSaved status in current state
+  /// UPDATE NEWS IN STATE
   void _updateNewsInState(String newsId, bool isSaved) {
     if (state.pages == null || state.pages!.isEmpty) return;
-
     final updatedPages = state.pages!
         .map((page) => _updatePageNewsSavedStatus(page, newsId, isSaved))
         .toList();
@@ -95,14 +109,16 @@ class CategoryNewsViewModel extends StateNotifier<PagingState<int, NewsModel>> {
     state = state.copyWith(pages: updatedPages);
   }
 
-  /// Update isSaved status for a single page of news
+  /// UPDATE IS SAVED STATUS FOR A SINGLE PAGE OF NEWS
   List<NewsModel> _updatePageNewsSavedStatus(
     List<NewsModel> page,
     String newsId,
     bool isSaved,
   ) {
     return page
-        .map((news) => news.id == newsId ? news.copyWith(isSaved: isSaved) : news)
+        .map(
+          (news) => news.id == newsId ? news.copyWith(isSaved: isSaved) : news,
+        )
         .toList();
   }
 }

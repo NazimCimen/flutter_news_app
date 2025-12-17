@@ -1,21 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-final internetConnectionCheckerProvider = Provider<InternetConnectionChecker>((
-  ref,
-) {
-  return InternetConnectionChecker();
-});
+/// THIS PROVIDER IS USED TO CHECK INTERNET CONNECTION.
+final internetConnectionCheckerProvider = Provider<InternetConnectionChecker>(
+  (ref) => InternetConnectionChecker(),
+);
 
 final networkInfoProvider = Provider<INetworkInfo>((ref) {
   return NetworkInfo(ref.read(internetConnectionCheckerProvider));
 });
 
-/// this interface is used to control internet connection.
+/// INTERFACE FOR CHECK INTERNET CONNECTION.
 abstract class INetworkInfo {
   Future<bool> get currentConnectivityResult;
 }
 
+///
 class NetworkInfo implements INetworkInfo {
   final InternetConnectionChecker connectivity;
 

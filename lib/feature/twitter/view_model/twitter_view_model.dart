@@ -1,31 +1,43 @@
-import 'package:flutter_news_app/data/model/tweet_model.dart';
-import 'package:flutter_news_app/data/repository/twitter_repository.dart';
+import 'package:flutter_news_app/app/data/model/tweet_model.dart';
+import 'package:flutter_news_app/app/data/repository/twitter_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 /// TWITTER VIEW MODEL PROVIDER WITH FAMILY (POPULAR/FOR YOU)
-final twitterViewModelProvider = StateNotifierProvider.family<
-    TwitterViewModel,
-    PagingState<int, TweetModel>,
-    bool>((ref, isPopular) {
-  return TwitterViewModel(
-    isPopular: isPopular,
-    twitterRepository: ref.read(twitterRepositoryProvider),
-  );
-});
+final twitterViewModelProvider =
+    StateNotifierProvider.family<
+      TwitterViewModelBase,
+      PagingState<int, TweetModel>,
+      bool
+    >((ref, isPopular) {
+      return TwitterViewModel(
+        isPopular: isPopular,
+        twitterRepository: ref.read(twitterRepositoryProvider),
+      );
+    });
+
+/// TWITTER VIEW MODEL BASE - ABSTRACT CLASS FOR PAGINATION
+abstract class TwitterViewModelBase extends StateNotifier<PagingState<int, TweetModel>> {
+  TwitterViewModelBase() : super(PagingState<int, TweetModel>());
+
+  /// FETCH NEXT PAGE OF TWEETS
+  Future<void> fetchNextPage();
+
+  /// REFRESH TWEETS (RESET AND FETCH FIRST PAGE)
+  Future<void> refresh();
+}
 
 /// TWITTER VIEW MODEL WITH PAGINATION
-class TwitterViewModel extends StateNotifier<PagingState<int, TweetModel>> {
+class TwitterViewModel extends TwitterViewModelBase {
   final bool isPopular;
   final TwitterRepository _twitterRepository;
 
   TwitterViewModel({
     required this.isPopular,
     required TwitterRepository twitterRepository,
-  })  : _twitterRepository = twitterRepository,
-        super(PagingState<int, TweetModel>());
+  }) : _twitterRepository = twitterRepository;
 
-  /// FETCH NEXT PAGE OF TWEETS
+  @override
   Future<void> fetchNextPage() async {
     if (state.isLoading) return;
 
@@ -54,7 +66,7 @@ class TwitterViewModel extends StateNotifier<PagingState<int, TweetModel>> {
     );
   }
 
-  /// REFRESH TWEETS (RESET AND FETCH FIRST PAGE)
+  @override
   Future<void> refresh() async {
     state = PagingState<int, TweetModel>();
     await fetchNextPage();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 
+/// FORGOT PASSWORD BUTTON IS USED TO DISPLAY FORGOT PASSWORD BUTTON
 class ForgetPasswordButton extends StatelessWidget {
   const ForgetPasswordButton({super.key});
 

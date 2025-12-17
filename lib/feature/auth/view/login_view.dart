@@ -1,18 +1,18 @@
-import 'package:flutter_news_app/config/localization/string_constants.dart';
-import 'package:flutter_news_app/config/routes/app_routes.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/routes/app_routes.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 import 'package:flutter_news_app/core/utils/size/padding_extension.dart';
 import 'package:flutter_news_app/core/utils/app_validators.dart';
 import 'package:flutter_news_app/feature/auth/mixin/login_mixin.dart';
 import 'package:flutter_news_app/feature/auth/widgets/auth_header.dart';
-import 'package:flutter_news_app/common/widgets/custom_button.dart';
+import 'package:flutter_news_app/app/common/widgets/custom_button.dart';
 import 'package:flutter_news_app/feature/auth/widgets/custom_password_text_field.dart';
 import 'package:flutter_news_app/feature/auth/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/feature/auth/widgets/forget_password_button.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_news_app/feature/auth/view_model/auth_view_model.dart';
-import 'package:flutter_news_app/common/components/custom_snack_bars.dart';
+import 'package:flutter_news_app/app/common/components/custom_snack_bars.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginView extends ConsumerStatefulWidget {

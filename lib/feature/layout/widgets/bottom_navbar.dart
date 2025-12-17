@@ -1,5 +1,6 @@
 part of '../view/app_layout.dart';
 
+/// CUSTOM BOTTOM NAVIGATION BAR WIDGET - USED IN APP LAYOUT
 class _CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onNavTap;
@@ -42,7 +43,7 @@ class _CustomBottomNavigationBar extends StatelessWidget {
                 label: StringConstants.navAgenda,
                 isSelected: currentIndex == 1,
                 selectedColor: AppColors.red,
-                unselectedColor:  AppColors.grey600,
+                unselectedColor: AppColors.grey600,
                 onTap: () => onNavTap(1),
               ),
               _CenterAlarmButton(onTap: () => onNavTap(2)),
@@ -52,7 +53,7 @@ class _CustomBottomNavigationBar extends StatelessWidget {
                 label: StringConstants.navSaved,
                 isSelected: currentIndex == 3,
                 selectedColor: AppColors.red,
-                unselectedColor:  AppColors.grey600,
+                unselectedColor: AppColors.grey600,
                 onTap: () => onNavTap(3),
               ),
               _NavItemWidget(
@@ -61,7 +62,7 @@ class _CustomBottomNavigationBar extends StatelessWidget {
                 label: StringConstants.navLocal,
                 isSelected: currentIndex == 4,
                 selectedColor: AppColors.red,
-                unselectedColor:  AppColors.grey600,
+                unselectedColor: AppColors.grey600,
                 onTap: () => onNavTap(4),
               ),
             ],

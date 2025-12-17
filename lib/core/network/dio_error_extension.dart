@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/error/failure.dart';
 
+/// THIS EXTENSION IS USED TO CONVERT DIOS ERROR TO FAILURE.
 extension DioErrorExtension on DioException {
   Failure toFailure() {
     final statusCode = response?.statusCode;

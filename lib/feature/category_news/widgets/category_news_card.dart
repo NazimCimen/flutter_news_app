@@ -1,21 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/utils/size/app_border_radius_extensions.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 import 'package:flutter_news_app/core/utils/size/padding_extension.dart';
-import 'package:flutter_news_app/data/model/news_model.dart';
+import 'package:flutter_news_app/app/data/model/news_model.dart';
 import 'package:shimmer/shimmer.dart';
 
+/// CATEGORY NEWS CARD
 class CategoryNewsCard extends StatelessWidget {
   final NewsModel news;
   final VoidCallback? onBookmarkTap;
 
-  const CategoryNewsCard({
-    required this.news,
-    this.onBookmarkTap,
-    super.key,
-  });
+  const CategoryNewsCard({required this.news, this.onBookmarkTap, super.key});
 
   @override
   Widget build(BuildContext context) {

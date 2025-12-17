@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
-import 'package:flutter_news_app/config/routes/app_routes.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/routes/app_routes.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 import 'package:flutter_news_app/core/utils/size/padding_extension.dart';
-import 'package:flutter_news_app/common/widgets/custom_button.dart';
+import 'package:flutter_news_app/app/common/widgets/custom_button.dart';
 import 'package:flutter_news_app/feature/sources/view_model/select_sources_view_model.dart';
 import 'package:flutter_news_app/feature/sources/widgets/sources_list_view.dart';
 import 'package:flutter_news_app/feature/sources/widgets/sources_search_bar.dart';
@@ -70,13 +70,11 @@ class _SelectSourcesViewState extends ConsumerState<SelectSourcesView> {
           children: [
             /// SEARCH BAR
             SourcesSearchBar(controller: _searchController),
-            
+
             SizedBox(height: context.cMediumValue),
 
             /// CONTENT AREA (LOADING / ERROR / LIST)
-            const Expanded(
-              child: SourcesListView(),
-            ),
+            const Expanded(child: SourcesListView()),
 
             SizedBox(height: context.cMediumValue),
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/common/decorations/custom_input_decoration.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/common/decorations/custom_input_decoration.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 
 class SourcesSearchBar extends StatefulWidget {
   final TextEditingController controller;
@@ -49,10 +49,7 @@ class _SourcesSearchBarState extends State<SourcesSearchBar> {
         hintText: StringConstants.searchSourceHint,
         prefixIcon: const Icon(Icons.search),
         suffixIcon: _hasText
-            ? IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: _clearSearch,
-              )
+            ? IconButton(icon: const Icon(Icons.clear), onPressed: _clearSearch)
             : null,
       ),
     );

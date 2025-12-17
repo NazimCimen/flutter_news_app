@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
-import 'package:flutter_news_app/common/widgets/custom_error_widget.dart';
-import 'package:flutter_news_app/common/widgets/custom_progress_indicator.dart';
-import 'package:flutter_news_app/data/model/tweet_model.dart';
+import 'package:flutter_news_app/app/common/widgets/custom_error_widget.dart';
+import 'package:flutter_news_app/app/common/widgets/custom_progress_indicator.dart';
+import 'package:flutter_news_app/app/data/model/tweet_model.dart';
 import 'package:flutter_news_app/feature/home/widgets/no_news_item.dart';
 import 'package:flutter_news_app/feature/twitter/view_model/twitter_view_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -79,6 +79,7 @@ class _TwitterTabViewState extends State<TwitterTabView>
           ),
         ];
       },
+
       /// TAB CONTENT (POPULAR / FOR YOU)
       body: TabBarView(
         controller: _tabController,

@@ -5,24 +5,24 @@ import 'package:flutter_news_app/main.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_news_app/config/localization/locale_constants.dart';
-import 'package:flutter_news_app/data/model/cached_news_data.dart';
+import 'package:flutter_news_app/app/config/localization/locale_constants.dart';
+import 'package:flutter_news_app/app/data/model/cached_news_data.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-/// App init for the app
+/// INITIALIZATION OPERATIONS
 abstract class AppInit {
-  /// Initialize the app
+  /// INITIALIZE THE APP
+  /// DOTENV , EASYLOCALIZATION , DEVICEPREVIEW , HIVE ,
   Future<void> initialize();
 
-  /// Run the app
+  /// RUN THE APP
   Future<void> run();
 
-  /// Get the app
+  /// GET THE APP
   Widget getApp();
 }
 
 class AppInitImpl extends AppInit {
-
   @override
   Widget getApp() {
     return EasyLocalization(
@@ -44,24 +44,20 @@ class AppInitImpl extends AppInit {
   @override
   Future<void> initialize() async {
     WidgetsFlutterBinding.ensureInitialized();
-    
+
     await dotenv.load();
-    
+
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
     await EasyLocalization.ensureInitialized();
-    
-    // Initialize Hive
+
     await Hive.initFlutter();
-    
-    // Register Hive adapters
+
     if (!Hive.isAdapterRegistered(0)) {
       Hive.registerAdapter(CachedNewsDataAdapter());
     }
-    
-   
   }
 
   @override

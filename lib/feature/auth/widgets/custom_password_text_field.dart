@@ -1,10 +1,10 @@
-import 'package:flutter_news_app/common/decorations/custom_input_decoration.dart';
+import 'package:flutter_news_app/app/common/decorations/custom_input_decoration.dart';
 import 'package:flutter_news_app/core/utils/app_validators.dart';
-import 'package:flutter_news_app/config/theme/app_colors.dart';
+import 'package:flutter_news_app/app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 
-/// Custom password text field for the app
+/// CUSTOM PASSWORD TEXT FIELD IS USED TO DISPLAY PASSWORD TEXT FIELD
 class CustomPasswordTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool obsecureText;

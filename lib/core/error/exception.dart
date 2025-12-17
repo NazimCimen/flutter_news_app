@@ -1,3 +1,4 @@
+/// THIS EXCEPTIONS ARE USED TO INDICATE EXCEPTIONS THAT OCCUR DURING THE EXECUTION OF A PROGRAM.
 class ServerException implements Exception {
   ServerException(this.description);
   final String? description;

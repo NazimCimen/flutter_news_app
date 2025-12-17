@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// AUTH HEADER IS USED TO DISPLAY AUTHENTICATION HEADER
 class AuthHeader extends StatelessWidget {
   final String title;
   final String subtitle;

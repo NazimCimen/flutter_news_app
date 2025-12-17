@@ -1,9 +1,8 @@
 part of '../view/app_layout.dart';
 
+/// CUSTOM APP BAR WIDGET - USED IN APP LAYOUT
 class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _CustomAppBar({required this.onMenuTap});
-
-  final VoidCallback onMenuTap;
+  const _CustomAppBar();
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +12,6 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           SizedBox(width: context.cSmallValue),
-          InkWell(child: const Icon(Icons.sort), onTap:onMenuTap),
           SizedBox(width: context.cMediumValue),
           InkWell(child: const Icon(Icons.alarm), onTap: () {}),
         ],

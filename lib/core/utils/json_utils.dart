@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// JSON transformation utilities
+/// JSON TRANSFORMATION UTILITIES
 @immutable
 final class JsonUtils {
   const JsonUtils._();

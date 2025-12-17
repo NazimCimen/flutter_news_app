@@ -1,5 +1,6 @@
 part of 'news_tab.dart';
 
+/// POPULAR NEWS SECTION - DISPLAYS TOP NEWS IN CAROUSEL SLIDER
 class _PopularNewsSection extends StatefulWidget {
   final List<NewsModel> news;
   final void Function(NewsModel)? onBookmarkTap;
@@ -10,11 +11,14 @@ class _PopularNewsSection extends StatefulWidget {
   State<_PopularNewsSection> createState() => _PopularNewsSectionState();
 }
 
+/// POPULAR NEWS SECTION STATE - MANAGES CAROUSEL PAGINATION
 class _PopularNewsSectionState extends State<_PopularNewsSection> {
   int _currentPage = 0;
   final _carouselController = CarouselSliderController();
+  
   @override
   Widget build(BuildContext context) {
+    /// LIMIT TO MAXIMUM 10 NEWS ITEMS
     final itemCount = widget.news.length > 10 ? 10 : widget.news.length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,6 +35,7 @@ class _PopularNewsSectionState extends State<_PopularNewsSection> {
         ),
         SizedBox(height: context.cMediumValue),
 
+        /// CAROUSEL SLIDER - SWIPEABLE NEWS CARDS
         CarouselSlider.builder(
           carouselController: _carouselController,
           itemCount: itemCount,
@@ -59,7 +64,7 @@ class _PopularNewsSectionState extends State<_PopularNewsSection> {
 
         SizedBox(height: context.cMediumValue),
 
-        // Smooth page indicators
+        /// SMOOTH PAGE INDICATORS - SHOWS CURRENT CAROUSEL POSITION
         Center(
           child: AnimatedSmoothIndicator(
             activeIndex: _currentPage,

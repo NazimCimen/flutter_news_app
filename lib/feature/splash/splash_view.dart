@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_news_app/config/routes/app_routes.dart';
-import 'package:flutter_news_app/data/model/category_model.dart';
-import 'package:flutter_news_app/data/repository/category_repository.dart';
+import 'package:flutter_news_app/app/config/routes/app_routes.dart';
+import 'package:flutter_news_app/app/data/model/category_model.dart';
+import 'package:flutter_news_app/app/data/repository/category_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_news_app/config/localization/string_constants.dart';
+import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 import 'package:flutter_news_app/core/utils/size/padding_extension.dart';
 import 'package:go_router/go_router.dart';
