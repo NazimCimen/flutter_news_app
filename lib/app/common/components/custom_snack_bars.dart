@@ -26,6 +26,7 @@ final class CustomSnackBars {
     );
   }
 
+
   /// SHOW THE SUCCESS SNACK BAR
   static void showSuccess(BuildContext context, String message) {
     _hideCurrentSnackBar(context);
