@@ -2,17 +2,18 @@
 
 > Mytech Case Study - News App
 
-## Demo
+## 🔧 Demo
 
-**[Ekran Kaydı İzle](YOUR_VIDEO_LINK_HERE)**
+**[Ekran Kaydı İzle](https://www.youtube.com/watch?v=BY_4ADRsGyI)**
 
-*Video linkini buraya ekleyin (YouTube, Google Drive, veya Loom)*
+https://www.youtube.com/watch?v=BY_4ADRsGyI
 
 ## Proje Hakkında
 
-Bu proje, Mytech iş başvurusu kapsamında geliştirilmiş, production-ready bir haber ve sosyal medya uygulamasıdır. Modern Flutter development pratiklerini, clean architecture prensiplerini ve enterprise-level kod kalitesini sergiler.
+Bu proje, Mytech Teknoloji Yazılım Anonim Şirketi
+ iş başvurusu kapsamında geliştirilmiştir,
 
-### Temel Özellikler
+### 🔧 Temel Özellikler
 
 **Kimlik Doğrulama Sistemi**
 - JWT tabanlı güvenli authentication
@@ -43,9 +44,9 @@ Bu proje, Mytech iş başvurusu kapsamında geliştirilmiş, production-ready bi
 - 1 saatlik Hive cache implementasyonu
 
 
-### Bonus Özellikler
+### 🔧 Bonus Özellikler
 
-Proje gereksinimlerinin dışında aşağıdaki özellikler eklenmiştir:
+Case kapsamında istenen temel gereksinimlere ek olarak aşağıdaki özellik eklemeleri yapılmıştır:
 
 **Tema Sistemi**
 - Material Design 3 implementasyonu
@@ -56,16 +57,54 @@ Proje gereksinimlerinin dışında aşağıdaki özellikler eklenmiştir:
 **Çoklu Dil Desteği (i18n)**
 - İngilizce ve Türkçe dil desteği
 - easy_localization ile runtime dil değiştirme
-- Tüm UI elementlerinde lokalizasyon
 
 **Unit Testing**
-- Unit testler (Services, Repositories)
 - Mockito ile mock-based testing
 
-**CI/CD Pipeline**
+**CI Pipeline**
 - GitHub Actions workflow
 - Otomatik test execution
-- Code quality checks
+
+
+### 🔧 Ek Teknik Tercihler ve Yaklaşımlar
+
+Case kapsamında belirtilen mimari ve teknik gereksinimler birebir uygulanmıştır. Bununla birlikte, uygulamanın performansı, sürdürülebilirliği ve kod kalitesini artırmak amacıyla aşağıdaki teknik tercihler yapılmıştır:
+
+**Kod Kalitesi & Statik Analiz**
+- Proje genelinde `very_good_analysis` kuralları uygulanarak okunabilirlik, maintainability ve best practice uyumu sağlanmıştır.
+
+**Görsel Performans**
+- Haber görsellerinde `cached_network_image` kullanılarak:
+  - Tekrarlı network istekleri azaltılmış
+  - Scroll performansı iyileştirilmiş
+  - Image loading kaynaklı jank riskleri minimize edilmiştir
+
+**Pagination & UI Optimizasyonu**
+- Infinite scroll kullanılan ekranlarda:
+  - Liste render optimizasyonlarına dikkat edilmiştir
+  - Gereksiz rebuild’ler önlenmiştir
+  - Scroll sırasında jank ve FPS düşüşlerini engellemeye yönelik yapılar tercih edilmiştir
+
+**Source Arama ve Takip Yönetimi**
+- Source verileri uygulama başlangıcında belleğe alındığı için:
+  - Arama işlemleri lokal bellek üzerinden gerçekleştirilmiştir
+  - Bu nedenle source search endpoint’i bilinçli olarak kullanılmamıştır
+- Source follow / unfollow işlemlerinde:
+  - Tekil endpoint’ler yerine bulk endpoint tercih edilmiştir
+  - Network çağrı sayısı azaltılarak daha verimli bir veri akışı sağlanmıştır
+
+**Kategori Verilerinin Yönetimi**
+- Kategoriler uygulama başlangıcında yüklenmiş ve uygulama lifecycle’ı boyunca bellekte tutulmuştur.
+- Bu tercih:
+  - Source–Category eşleşmeleri
+  - Kategori bazlı haber listeleme  
+  senaryolarında tekrar eden API çağrılarını önlemek amacıyla yapılmıştır.
+
+**Authentication & Token Yönetimi**
+- JWT tabanlı authentication sürecinde:
+  - Token güvenli şekilde saklanmış
+  - Geçerlilik süresi kontrol edilmiştir
+  - Dio interceptor üzerinden token yönetimi sağlanarak kullanıcıya yansıtılmadan güvenli ve şeffaf bir auth akışı oluşturulmuştur
 
 
 ## Ekran Görüntüleri
@@ -130,11 +169,11 @@ Proje gereksinimlerinin dışında aşağıdaki özellikler eklenmiştir:
 
 
 
-## Mimari Yapı
+## 🔧 Mimari Yapı
 
 ### MVVM Pattern Implementation
 
-Proje, MVVM (Model-View-ViewModel) mimarisi üzerine kurulmuştur. Bu yaklaşım, separation of concerns prensibini uygulayarak kodun test edilebilirliğini artırır.
+Proje, MVVM (Model-View-ViewModel) VE Repository pattern mimarisi üzerine kurulmuştur.Separation of concerns prensipleri uygulanarak test edilebilir bir altyapı oluşturulmuştur.
 
 ```
 lib/
@@ -256,39 +295,6 @@ flutter run
 ```bash
 # Tüm testleri çalıştır
 flutter test
-```
-
-
-## API Konfigürasyonu
-
-### Endpoint Yapısı
-
-```
-Base URL: https://interview.test.egundem.com/api/v1
-
-Authentication:
-- Header: x-api-key: test-api-key
-- Bearer Token: Authorization: Bearer {jwt_token}
-
-Endpoints:
-├── /auth
-│   ├── POST /register
-│   └── POST /login
-├── /users
-│   └── GET /profile
-├── /sources
-│   └── GET /
-├── /categories
-│   └── GET /
-├── /news
-│   ├── GET /
-│   ├── GET /by-category/:id
-│   └── GET /categories-with-news
-├── /saved-news
-│   ├── POST /
-│   └── DELETE /:id
-└── /tweets
-    └── GET /
 ```
 
 
