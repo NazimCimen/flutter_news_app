@@ -10,6 +10,7 @@ final class ApiConstants {
   /// AUTH
   static const String loginEndPoint = '/api/v1/users/login';
   static const String signUpEndPoint = '/api/v1/users';
+  static const String userProfile = '/api/v1/users/profile';
 
   /// CATEGORIES
   static const String categories = '/api/v1/categories';

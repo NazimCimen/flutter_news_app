@@ -1,25 +1,22 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_news_app/app/data/model/response_auth.dart';
+import 'package:flutter_news_app/app/data/model/user_model.dart';
 import 'package:flutter_news_app/core/network/api_constants.dart';
 import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/error/failure.dart';
 import 'package:flutter_news_app/core/network/dio_error_extension.dart';
 import 'package:flutter_news_app/core/network/dio_interceptor.dart';
-import 'package:flutter_news_app/core/utils/enum/cache_enum.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// AUTH SERVICE PROVIDER
 final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthServiceImpl(
-    dio: ref.read(dioProvider),
-    secureStorage: ref.read(secureStorageProvider),
-  );
+  return AuthServiceImpl(dio: ref.read(dioProvider));
 });
 
 abstract class AuthService {
   /// AUTHENTICATE USER WITH EMAIL AND PASSWORD
-  Future<Either<Failure, void>> login(String email, String password);
+  Future<Either<Failure, ResponseAuth>> login(String email, String password);
 
   /// REGISTER NEW USER WITH EMAIL AND PASSWORD
   Future<Either<Failure, void>> signUp(String email, String password);
@@ -27,13 +24,8 @@ abstract class AuthService {
 
 class AuthServiceImpl implements AuthService {
   final Dio _dio;
-  final FlutterSecureStorage _secureStorage;
 
-  AuthServiceImpl({
-    required Dio dio,
-    required FlutterSecureStorage secureStorage,
-  }) : _dio = dio,
-       _secureStorage = secureStorage;
+  AuthServiceImpl({required Dio dio}) : _dio = dio;
 
   @override
   Future<Either<Failure, void>> signUp(String email, String password) async {
@@ -52,38 +44,38 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  Future<Either<Failure, void>> login(String email, String password) async {
+  Future<Either<Failure, ResponseAuth>> login(
+    String email,
+    String password,
+  ) async {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         ApiConstants.loginEndPoint,
         data: {'email': email, 'password': password},
       );
 
-      final data = response.data;
-
-      final result = data?['result'];
-      if (data == null || result is! Map<String, dynamic>) {
-        return Left(
-          ServerFailure(errorMessage: StringConstants.anErrorOccured),
-        );
-      }
-
-      final accessToken = result['accessToken'];
+      final result = response.data?['result'];
+      final accessToken = result?['accessToken'];
+      final userData = result?['user'];
 
       if (accessToken is! String || accessToken.isEmpty) {
         return Left(
           ServerFailure(errorMessage: StringConstants.anErrorOccured),
         );
       }
-      await _secureStorage.write(
-        key: CacheKeyEnum.accessToken.name,
-        value: accessToken,
-      );
-      return const Right(null);
+
+      if (userData == null) {
+        return Left(
+          ServerFailure(errorMessage: StringConstants.anErrorOccured),
+        );
+      }
+
+      final user = UserModel.fromJson(userData as Map<String, dynamic>);
+      final loginResponse = ResponseAuth(accessToken: accessToken, user: user);
+
+      return Right(loginResponse);
     } on DioException catch (e) {
       return Left(e.toFailure());
-    } catch (_) {
-      return Left(ServerFailure(errorMessage: StringConstants.anErrorOccured));
     }
   }
 }

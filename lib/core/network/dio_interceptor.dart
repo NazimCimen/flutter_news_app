@@ -1,18 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_news_app/app/data/data_source/local/auth_local_service.dart';
 import 'package:flutter_news_app/core/network/api_constants.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_news_app/core/utils/enum/cache_enum.dart';
-
-/// THIS PROVIDER IS USED TO GET THE SECURE STORAGE.
-final secureStorageProvider = Provider<FlutterSecureStorage>(
-  (_) => const FlutterSecureStorage(),
-);
 
 /// THIS PROVIDER IS USED TO GET THE DIO.
 final dioProvider = Provider<Dio>((ref) {
-  final secureStorage = ref.read(secureStorageProvider);
+  final authLocalService = ref.read(authLocalServiceProvider);
 
   final dio = Dio(
     BaseOptions(
@@ -32,9 +26,7 @@ final dioProvider = Provider<Dio>((ref) {
           options.headers['x-api-key'] = apiKey;
         }
 
-        final accessToken = await secureStorage.read(
-          key: CacheKeyEnum.accessToken.name,
-        );
+        final accessToken = await authLocalService.getAccessToken();
         if (accessToken != null && accessToken.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $accessToken';
         }
@@ -47,9 +39,8 @@ final dioProvider = Provider<Dio>((ref) {
 
       onError: (DioException e, handler) async {
         if (e.response?.statusCode == 401) {
-          await secureStorage.delete(key: CacheKeyEnum.accessToken.name);
+          await authLocalService.clear();
         }
-
         handler.next(e);
       },
     ),

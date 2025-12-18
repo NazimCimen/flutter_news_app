@@ -6,8 +6,11 @@
 import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
+import 'package:flutter_news_app/app/data/data_source/local/auth_local_service.dart'
+    as _i7;
 import 'package:flutter_news_app/app/data/data_source/remote/auth_service.dart'
     as _i3;
+import 'package:flutter_news_app/app/data/model/response_auth.dart' as _i3;
 import 'package:flutter_news_app/core/connection/network_info.dart' as _i6;
 import 'package:flutter_news_app/core/error/failure.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
@@ -45,7 +48,7 @@ class MockAuthService extends _i1.Mock implements _i3.AuthService {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> login(
+  _i4.Future<_i2.Either<_i5.Failure, _i3.ResponseAuth>> login(
     String? email,
     String? password,
   ) =>
@@ -57,8 +60,9 @@ class MockAuthService extends _i1.Mock implements _i3.AuthService {
             password,
           ],
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
-            _FakeEither_0<_i5.Failure, void>(
+        returnValue:
+            _i4.Future<_i2.Either<_i5.Failure, _i3.ResponseAuth>>.value(
+                _FakeEither_0<_i5.Failure, _i3.ResponseAuth>(
           this,
           Invocation.method(
             #login,
@@ -68,7 +72,7 @@ class MockAuthService extends _i1.Mock implements _i3.AuthService {
             ],
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i3.ResponseAuth>>);
 
   @override
   _i4.Future<_i2.Either<_i5.Failure, void>> signUp(
@@ -110,4 +114,51 @@ class MockINetworkInfo extends _i1.Mock implements _i6.INetworkInfo {
         Invocation.getter(#currentConnectivityResult),
         returnValue: _i4.Future<bool>.value(false),
       ) as _i4.Future<bool>);
+}
+
+/// A class which mocks [AuthLocalService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthLocalService extends _i1.Mock implements _i7.AuthLocalService {
+  MockAuthLocalService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.Future<void> saveAccessToken(String? token) => (super.noSuchMethod(
+        Invocation.method(
+          #saveAccessToken,
+          [token],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<String?> getAccessToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getAccessToken,
+          [],
+        ),
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
+
+  @override
+  _i4.Future<bool> isTokenValid() => (super.noSuchMethod(
+        Invocation.method(
+          #isTokenValid,
+          [],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+
+  @override
+  _i4.Future<void> clear() => (super.noSuchMethod(
+        Invocation.method(
+          #clear,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

@@ -28,7 +28,7 @@ class _SignUpViewState extends ConsumerState<SignUpView> with SignupMixin {
     ref.listen(authViewModelProvider, (previous, next) {
       next.when(
         data: (_) {
-          context.go(AppRoutes.mainLayout);
+          context.go(AppRoutes.selectSources);
         },
         error: (error, stackTrace) {
           makeRequestUnavailable();
@@ -78,6 +78,8 @@ class _SignUpViewState extends ConsumerState<SignUpView> with SignupMixin {
                           changeObsecureText: togglePasswordVisibility,
                           topLabel: StringConstants.passwordLabel,
                           hintText: StringConstants.passwordHint,
+                          validator: (value) =>
+                              AppValidators.passwordValidator(value),
                         ),
                         SizedBox(height: context.cMediumValue),
                         CustomPasswordTextField(
@@ -86,6 +88,11 @@ class _SignUpViewState extends ConsumerState<SignUpView> with SignupMixin {
                           changeObsecureText: togglePasswordVisibility,
                           topLabel: StringConstants.confirmPasswordLabel,
                           hintText: StringConstants.passwordHint,
+                          validator: (value) =>
+                              AppValidators.confirmPasswordValidator(
+                                value,
+                                passwordController.text,
+                              ),
                         ),
                         SizedBox(height: context.cXLargeValue),
                         CustomButtonWidget(

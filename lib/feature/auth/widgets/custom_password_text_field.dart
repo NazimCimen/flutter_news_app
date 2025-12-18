@@ -1,5 +1,4 @@
 import 'package:flutter_news_app/app/common/decorations/custom_input_decoration.dart';
-import 'package:flutter_news_app/core/utils/app_validators.dart';
 import 'package:flutter_news_app/app/config/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
@@ -11,6 +10,7 @@ class CustomPasswordTextField extends StatelessWidget {
   final VoidCallback changeObsecureText;
   final String topLabel;
   final String hintText;
+  final String? Function(String?)? validator;
 
   const CustomPasswordTextField({
     required this.controller,
@@ -18,6 +18,7 @@ class CustomPasswordTextField extends StatelessWidget {
     required this.changeObsecureText,
     required this.topLabel,
     required this.hintText,
+    required this.validator,
     super.key,
   });
 
@@ -36,7 +37,7 @@ class CustomPasswordTextField extends StatelessWidget {
         SizedBox(height: context.cSmallValue),
         TextFormField(
           controller: controller,
-          validator: (value) => AppValidators.passwordValidator(value),
+          validator: validator,
           obscureText: obsecureText,
           textInputAction: TextInputAction.done,
           decoration: CustomInputDecoration.authInputDecoration(

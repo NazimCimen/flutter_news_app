@@ -32,4 +32,15 @@ final class AppValidators {
       return null;
     }
   }
+
+  /// VALIDATES CONFIRM PASSWORD MATCHES PASSWORD
+  static String? confirmPasswordValidator(String? value, String password) {
+    if (value == null || value.isEmpty) {
+      return StringConstants.validationPasswordRequired;
+    } else if (value != password) {
+      return StringConstants.validationPasswordsDoNotMatch;
+    } else {
+      return null;
+    }
+  }
 }

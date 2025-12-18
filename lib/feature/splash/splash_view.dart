@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_news_app/app/config/routes/app_routes.dart';
+import 'package:flutter_news_app/app/data/data_source/local/auth_local_service.dart';
 import 'package:flutter_news_app/app/data/model/category_model.dart';
 import 'package:flutter_news_app/app/data/repository/category_repository.dart';
+import 'package:flutter_news_app/feature/profile/user_profile_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 import 'package:flutter_news_app/core/utils/size/padding_extension.dart';
 import 'package:go_router/go_router.dart';
+import 'dart:developer' as developer;
 
-/// Fetches and caches categories globally
+/// FETCH CATEGORIES GLOBALLY
 final categoriesProvider = FutureProvider<List<CategoryModel>>((ref) async {
   final repository = ref.read(categoriesRepositoryProvider);
   final result = await repository.fetchCategories();
@@ -29,15 +32,20 @@ class _SplashViewState extends ConsumerState<SplashView> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await _initApp();
     });
-
     super.initState();
   }
 
   Future<void> _initApp() async {
-    // Preload categories
     await ref.read(categoriesProvider.future);
     if (!mounted) return;
-    context.go(AppRoutes.login);
+    final authService = ref.read(authLocalServiceProvider);
+    final isValid = await authService.isTokenValid();
+    if (isValid && mounted) {
+      await ref.read(userProfileProvider.notifier).fetchUserProfile();
+      if (mounted) context.go(AppRoutes.mainLayout);
+    } else {
+      if (mounted) context.go(AppRoutes.login);
+    }
   }
 
   @override
