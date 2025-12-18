@@ -15,13 +15,13 @@ class SignupFooter extends StatelessWidget {
       children: [
         Text.rich(
           TextSpan(
-            text: 'By creating an account, you agree to our ',
+            text: StringConstants.byCreatingAccount,
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: AppColors.grey, height: 1.5),
             children: [
               TextSpan(
-                text: 'Terms of Service',
+                text: StringConstants.termsOfService,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.bold,
@@ -29,7 +29,7 @@ class SignupFooter extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: ' and ',
+                text: StringConstants.and,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(
                     context,
@@ -38,7 +38,7 @@ class SignupFooter extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: 'Privacy Policy.',
+                text: StringConstants.privacyPolicy,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.bold,

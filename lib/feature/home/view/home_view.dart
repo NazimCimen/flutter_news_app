@@ -58,8 +58,14 @@ class _HomePageState extends ConsumerState<HomePage>
             child: TabBarView(
               controller: _tabController,
               children: [
-                const NewsTab(isPopular: true),
-                const NewsTab(isPopular: false),
+                const NewsTab(
+                  key: ValueKey('news_tab_true'),
+                  isPopular: true,
+                ),
+                const NewsTab(
+                  key: ValueKey('news_tab_false'),
+                  isPopular: false,
+                ),
                 const TwitterTabView(),
                 Container(),
               ],

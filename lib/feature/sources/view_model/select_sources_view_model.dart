@@ -2,6 +2,7 @@ import 'package:flutter_news_app/app/data/repository/sources_repository.dart';
 import 'package:flutter_news_app/app/data/model/source_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+/// SELECT SOURCES VIEW MODEL
 final selectSourcesViewModelProvider =
     StateNotifierProvider<
       SelectSourcesViewModelBase,
@@ -12,19 +13,18 @@ final selectSourcesViewModelProvider =
       );
     });
 
-/// Abstract base class for SelectSourcesViewModel
-/// Defines the contract for managing source selection with async loading patterns
+/// ABSTRACT BASE CLASS for SelectSourcesViewModel
 abstract class SelectSourcesViewModelBase
     extends StateNotifier<AsyncValue<List<SourceModel>>> {
   SelectSourcesViewModelBase() : super(const AsyncValue.loading());
 
-  /// Search sources by query string
+  /// SEARCH SOURCES BY QUERY STRING
   void search(String query);
 
-  /// Toggle follow status for a source
+  /// TOGGLE FOLLOW STATUS FOR A SOURCE
   void toggleFollow(String sourceId);
 
-  /// Save the current selection to the repository
+  /// SAVE THE CURRENT SELECTION TO THE REPOSITORY
   Future<void> saveSelection();
 }
 
@@ -39,21 +39,18 @@ class SelectSourcesViewModel extends SelectSourcesViewModelBase {
   }
 
   Future<void> _init() async {
-    // Set loading state before async operation
     state = const AsyncValue.loading();
-    
+
     final sourcesResult = await _sourcesRepository.fetchSources();
     final followedResult = await _sourcesRepository.fetchFollowedSources();
-    
+
     sourcesResult.fold(
       (failure) {
-        // Update state with error on failure
         state = AsyncValue.error(failure.errorMessage, StackTrace.current);
       },
       (sources) {
         followedResult.fold(
           (failure) {
-            // Update state with error on failure
             state = AsyncValue.error(failure.errorMessage, StackTrace.current);
           },
           (followedSources) {
@@ -69,7 +66,6 @@ class SelectSourcesViewModel extends SelectSourcesViewModelBase {
             }).toList();
 
             _allSources = mergedSources;
-            // Update state with data on success
             state = AsyncValue.data(mergedSources);
           },
         );
@@ -126,7 +122,6 @@ class SelectSourcesViewModel extends SelectSourcesViewModelBase {
         .map((s) => {'sourceId': s.id, 'isFollowed': s.isFollowed ?? false})
         .toList();
 
-    // Set loading state while preserving previous data
     state = const AsyncValue<List<SourceModel>>.loading().copyWithPrevious(
       AsyncData(currentSources),
     );
@@ -135,14 +130,12 @@ class SelectSourcesViewModel extends SelectSourcesViewModelBase {
 
     result.fold(
       (failure) {
-        // Update state with error on failure, preserving previous data
         state = AsyncValue<List<SourceModel>>.error(
           failure.errorMessage,
           StackTrace.current,
         ).copyWithPrevious(AsyncData(currentSources));
       },
       (_) {
-        // Update state with data on success
         state = AsyncValue.data(currentSources);
       },
     );

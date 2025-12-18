@@ -35,11 +35,9 @@ final dioProvider = Provider<Dio>((ref) {
         final accessToken = await secureStorage.read(
           key: CacheKeyEnum.accessToken.name,
         );
-
         if (accessToken != null && accessToken.isNotEmpty) {
           options.headers['Authorization'] = 'Bearer $accessToken';
         }
-
         handler.next(options);
       },
 

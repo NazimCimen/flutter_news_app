@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_news_app/app/config/localization/locale_constants.dart';
-import 'package:flutter_news_app/app/data/model/cached_news_data.dart';
+import 'package:flutter_news_app/app/data/model/news_data_cache.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// INITIALIZATION OPERATIONS

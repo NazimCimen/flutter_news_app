@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cached_news_data.dart';
+part of 'news_data_cache.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

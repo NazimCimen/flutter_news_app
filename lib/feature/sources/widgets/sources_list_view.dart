@@ -1,15 +1,8 @@
-import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_news_app/app/config/localization/string_constants.dart';
-import 'package:flutter_news_app/core/utils/size/constant_size.dart';
-import 'package:flutter_news_app/app/data/model/source_model.dart';
-import 'package:flutter_news_app/feature/sources/view_model/select_sources_view_model.dart';
-import 'package:flutter_news_app/feature/sources/widgets/source_tile.dart';
-import 'package:flutter_news_app/feature/splash/splash_view.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+part of '../view/select_sources_view.dart';
 
-class SourcesListView extends ConsumerWidget {
-  const SourcesListView({super.key});
+/// SOURCES LIST VIEW
+class _SourcesListView extends ConsumerWidget {
+  const _SourcesListView();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,7 +60,7 @@ class SourcesListView extends ConsumerWidget {
                     ),
                   ),
                 ),
-                ...categorySources.map((source) => SourceTile(source: source)),
+                ...categorySources.map((source) => _SourceTile(source: source)),
                 SizedBox(height: context.cSmallValue),
               ],
             );

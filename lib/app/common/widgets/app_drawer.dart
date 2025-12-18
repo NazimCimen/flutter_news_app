@@ -26,7 +26,7 @@ class AppDrawer extends ConsumerWidget {
             const _Header(),
             const SizedBox(height: 8),
 
-            _SectionTitle(title: 'Dil', textTheme: textTheme),
+            _SectionTitle(title: StringConstants.language, textTheme: textTheme),
             ...LocaleConstants.languageList.map(
               (lang) => _SelectableTile(
                 title: lang.name,
@@ -39,10 +39,10 @@ class AppDrawer extends ConsumerWidget {
             ),
 
             const SizedBox(height: 16),
-            _SectionTitle(title: 'Tema', textTheme: textTheme),
+            _SectionTitle(title: StringConstants.theme, textTheme: textTheme),
 
             _SelectableTile(
-              title: 'Açık',
+              title: StringConstants.lightTheme,
               leading: const Icon(Icons.light_mode_outlined),
               isSelected: themeState.currentThemeEnum == ThemeEnum.light,
               onTap: () {
@@ -52,7 +52,7 @@ class AppDrawer extends ConsumerWidget {
               },
             ),
             _SelectableTile(
-              title: 'Koyu',
+              title: StringConstants.darkTheme,
               leading: const Icon(Icons.dark_mode_outlined),
               isSelected: themeState.currentThemeEnum == ThemeEnum.dark,
               onTap: () {
@@ -66,7 +66,7 @@ class AppDrawer extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(16),
               child: Text(
-                '© ${DateTime.now().year} ${StringConstants.appName}',
+                '${StringConstants.copyright} ${DateTime.now().year} ${StringConstants.appName}',
                 style: textTheme.bodySmall?.copyWith(
                   color: colors.onSurfaceVariant,
                 ),

@@ -8,11 +8,12 @@ class _CategoryNewsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    /// WATCH HOME STATE AND SELECT APPROPRIATE TAB DATA
-    final homeState = ref.watch(homeViewModelProvider);
-    final tabState = isPopular
-        ? homeState.latestTab
-        : homeState.forYouTab;
+    /// SELECTIVE WATCHING - ONLY WATCH RELEVANT TAB STATE TO MINIMIZE REBUILDS
+    final tabState = ref.watch(
+      homeViewModelProvider.select((state) => 
+        isPopular ? state.latestTab : state.forYouTab
+      ),
+    );
 
     /// HANDLE DIFFERENT ASYNC STATES FOR CATEGORY NEWS
     return tabState.categoryNews.when(
@@ -136,6 +137,7 @@ class _CategoryNews extends ConsumerWidget {
             children: [
               for (int i = 0; i < news.length; i++) ...[
                 CategoryNewsCard(
+                  key: ValueKey('category_news_${category.id}_${news[i].id ?? i}'),
                   news: news[i],
                   onBookmarkTap: () =>
                       _handleBookmarkTap(context, ref, news[i]),

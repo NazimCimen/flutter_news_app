@@ -42,6 +42,7 @@ class _PopularNewsSectionState extends State<_PopularNewsSection> {
           itemBuilder: (BuildContext context, int index, int realIndex) {
             final news = widget.news[index];
             return _PopularNewsCard(
+              key: ValueKey('popular_news_${news.id ?? index}'),
               news: news,
               onBookmarkTap: widget.onBookmarkTap != null
                   ? () => widget.onBookmarkTap!(news)
