@@ -9,13 +9,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       forceMaterialTransparency: true,
       titleSpacing: 0,
-      title: Row(
-        children: [
-          SizedBox(width: context.cSmallValue),
-          SizedBox(width: context.cMediumValue),
-          InkWell(child: const Icon(Icons.alarm), onTap: () {}),
-        ],
-      ),
+      title: InkWell(child: const Icon(Icons.alarm), onTap: () {}),
       actions: [
         Container(
           padding: context.cPaddingSmall * 0.6,

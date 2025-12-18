@@ -1,5 +1,5 @@
 import 'package:flutter_news_app/core/utils/enum/cache_enum.dart';
-import 'package:flutter_news_app/app/data/model/cached_news_data.dart';
+import 'package:flutter_news_app/app/data/model/news_data_cache.dart';
 import 'package:flutter_news_app/app/data/model/news_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';

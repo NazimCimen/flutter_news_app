@@ -5,10 +5,17 @@ import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 import 'package:flutter_news_app/core/utils/size/padding_extension.dart';
 import 'package:flutter_news_app/app/common/widgets/custom_button.dart';
 import 'package:flutter_news_app/feature/sources/view_model/select_sources_view_model.dart';
-import 'package:flutter_news_app/feature/sources/widgets/sources_list_view.dart';
-import 'package:flutter_news_app/feature/sources/widgets/sources_search_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_news_app/app/data/model/source_model.dart';
+import 'package:collection/collection.dart';
+import 'package:flutter_news_app/app/common/decorations/custom_input_decoration.dart';
+import 'package:flutter_news_app/feature/splash/splash_view.dart';
+part '../widgets/source_tile.dart';
+part '../widgets/sources_list_view.dart';
+part '../widgets/sources_search_bar.dart';
 
 class SelectSourcesView extends ConsumerStatefulWidget {
   const SelectSourcesView({super.key});
@@ -69,12 +76,12 @@ class _SelectSourcesViewState extends ConsumerState<SelectSourcesView> {
         child: Column(
           children: [
             /// SEARCH BAR
-            SourcesSearchBar(controller: _searchController),
+            _SourcesSearchBar(controller: _searchController),
 
             SizedBox(height: context.cMediumValue),
 
             /// CONTENT AREA (LOADING / ERROR / LIST)
-            const Expanded(child: SourcesListView()),
+            const Expanded(child: _SourcesListView()),
 
             SizedBox(height: context.cMediumValue),
 

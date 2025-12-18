@@ -5,16 +5,13 @@ class _PopularNewsCard extends StatelessWidget {
   final NewsModel news;
   final VoidCallback? onBookmarkTap;
 
-  const _PopularNewsCard({
-    required this.news,
-    this.onBookmarkTap,
-  });
+  const _PopularNewsCard({required this.news, this.onBookmarkTap, super.key});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    
+
     return ClipRRect(
       borderRadius: context.cBorderRadiusAllMedium,
       child: Stack(
@@ -40,9 +37,7 @@ class _PopularNewsCard extends StatelessWidget {
               ),
             )
           else
-            Positioned.fill(
-              child: Container(color: colorScheme.primary),
-            ),
+            Positioned.fill(child: Container(color: colorScheme.primary)),
 
           /// GRADIENT OVERLAY - DARKENS BOTTOM FOR TEXT READABILITY
           Positioned.fill(

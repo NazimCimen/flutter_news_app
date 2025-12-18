@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter_news_app/app/data/model/news_model.dart';
 import 'package:hive/hive.dart';
 
-part 'cached_news_data.g.dart';
+part 'news_data_cache.g.dart';
 
 @HiveType(typeId: 0)
 class CachedNewsData extends HiveObject {

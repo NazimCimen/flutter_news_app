@@ -190,7 +190,7 @@ class NewsServiceImpl implements NewsService {
     required String savedNewsId,
   }) async {
     try {
-      await _dio.delete<Map<String, dynamic>>(
+      await _dio.delete<void>(
         '${ApiConstants.savedNews}/$savedNewsId',
       );
 

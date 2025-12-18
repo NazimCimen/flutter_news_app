@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// STRING CONSTANTS FOR THE APP
@@ -5,120 +6,115 @@ import 'package:flutter/material.dart';
 final class StringConstants {
   const StringConstants._();
 
-  static String get appName => 'NEWS APP';
-  static String get version => '1.0.0';
+  static String get appName => 'NEWS APP'.tr();
+  static String get version => '1.0.0'.tr();
   // ============================================================================
   // COMMON ERROR MESSAGES
   // ============================================================================
-  static String get noInternetConnection => 'No internet connection';
-  static String get anErrorOccured => 'An error occurred';
-  static String get invalidCredentials => 'Invalid email or password.';
-  static String get emailAlreadyExist => 'Email already exists.';
-  static String get validationEmailRequired => 'Email is required';
-  static String get validationEmailInvalid => 'Email is invalid';
-  static String get validationPasswordRequired => 'Password is required';
+  static String get noInternetConnection => 'no_internet_connection'.tr();
+  static String get anErrorOccured => 'an_error_occured'.tr();
+  static String get invalidCredentials => 'invalid_credentials'.tr();
+  static String get emailAlreadyExist => 'email_already_exist'.tr();
+  static String get validationEmailRequired => 'validation_email_required'.tr();
+  static String get validationEmailInvalid => 'validation_email_invalid'.tr();
+  static String get validationPasswordRequired => 'validation_password_required'.tr();
   static String get validationPasswordMinLength =>
-      'Password must be at least 6 characters long';
+      'validation_password_min_length'.tr();
 
   // ============================================================================
   // SOURCES FEATURE
   // ============================================================================
-  static String get selectSourcesTitle => 'Select News Sources';
-  static String get searchSourceHint => 'Search for a source...';
-  static String get saveButton => 'Save';
-  static String get noSource => 'No sources found..';
-  static String get unknownCategory => 'Unknown Category';
+  static String get selectSourcesTitle => 'select_sources_title'.tr();
+  static String get searchSourceHint => 'search_source_hint'.tr();
+  static String get saveButton => 'save_button'.tr();
+  static String get noSource => 'no_source'.tr();
+  static String get unknownCategory => 'unknown_category'.tr();
 
   // ============================================================================
   // AUTH FEATURE
   // ============================================================================
-  static String get loginTitle => 'Welcome';
-  static String get loginSubtitle => 'Sign in or create an account to continue';
-  static String get emailLabel => 'Email Address';
-  static String get emailHint => 'Enter your email';
-  static String get passwordLabel => 'Password';
-  static String get passwordHint => 'Enter your password';
-  static String get confirmPasswordLabel => 'Confirm Password';
-  static String get signInButton => 'Sign In';
-  static String get signUpButton => 'Sign Up';
-  static String get signUpTitle => 'Create an account';
-  static String get signUpSubtitle => 'Join us to get the latest news updates';
-  static String get createAccount => 'Create account';
-  static String get forgetPassword => 'Forgot Password';
-  static String get allreadyHaveAccount => 'Allready have an account?';
-  static String get authTermsText =>
-      'By creating an account, you agree to our {terms} and {privacy}.';
-
+  static String get loginTitle => 'login_title'.tr();
+  static String get loginSubtitle => 'login_subtitle'.tr();
+  static String get emailLabel => 'email_label'.tr();
+  static String get emailHint => 'email_hint'.tr();
+  static String get passwordLabel => 'password_label'.tr();
+  static String get passwordHint => 'password_hint'.tr();
+  static String get confirmPasswordLabel => 'confirm_password_label'.tr();
+  static String get signInButton => 'sign_in_button'.tr();
+  static String get signUpButton => 'sign_up_button'.tr();
+  static String get signUpTitle => 'sign_up_title'.tr();
+  static String get signUpSubtitle => 'sign_up_subtitle'.tr();
+  static String get createAccount => 'create_account'.tr();
+  static String get forgetPassword => 'forget_password'.tr();
+  static String get allreadyHaveAccount => 'allready_have_account'.tr();
+  static String get authTermsText => 'auth_terms_text'.tr();
+  static String get byCreatingAccount => 'by_creating_account'.tr();
+  static String get termsOfService => 'terms_of_service'.tr();
+  static String get and => 'and'.tr();
+  static String get privacyPolicy => 'privacy_policy'.tr();
+  
   // ============================================================================
   // NAVIGATION
   // ============================================================================
-  static String get navHome => 'Home';
-  static String get navAgenda => 'Agenda';
-  static String get navAlerts => 'Alerts';
-  static String get navSaved => 'Saved';
-  static String get navLocal => 'Local';
+  static String get navHome => 'nav_home'.tr();
+  static String get navAgenda => 'nav_agenda'.tr();
+  static String get navAlerts => 'nav_alerts'.tr();
+  static String get navSaved => 'nav_saved'.tr();
+  static String get navLocal => 'nav_local'.tr();
 
   // ============================================================================
   // HOME FEATURE
   // ============================================================================
-  static String get tabLatestNews => 'Latest News';
-  static String get tabForYou => 'For You';
-  static String get tabTwitter => 'Twitter';
-  static String get tabYouTube => 'YouTube';
-  static String get popular => 'Popular';
-  static String get forYou => 'For You';
-  static String get popularNews => 'Popular News';
-  static String get noNewsYet => 'No news yet';
-  static String get errorOccurred => 'An error occurred';
-  static String get tryAgain => 'Try Again';
-  static String get noTitle => 'No Title';
-  static String get unknownSource => 'Unknown Source';
-  static String get general => 'General';
-  static String get comingSoon => 'Coming Soon';
-  static String get contentPlaceholder => 'content';
-  static String get showMore => 'Show More';
-  static String get minutesAgo => 'Minutes Ago';
-  static String get hoursAgo => 'Hours Ago';
-  static String get daysAgo => 'Days Ago';
+  static String get tabLatestNews => 'tab_latest_news'.tr();
+  static String get tabForYou => 'tab_for_you'.tr();
+  static String get tabTwitter => 'tab_twitter'.tr();
+  static String get tabYouTube => 'tab_youtube'.tr();
+  static String get popular => 'popular'.tr();
+  static String get forYou => 'for_you'.tr();
+  static String get popularNews => 'popular_news'.tr();
+  static String get noNewsYet => 'no_news_yet'.tr();
+  static String get errorOccurred => 'error_occurred'.tr();
+  static String get tryAgain => 'try_again'.tr();
+  static String get noTitle => 'no_title'.tr();
+  static String get unknownSource => 'unknown_source'.tr();
+  static String get general => 'general'.tr();
+  static String get comingSoon => 'coming_soon'.tr();
+  static String get contentPlaceholder => 'content_placeholder'.tr();
+  static String get showMore => 'show_more'.tr();
+  static String get minutesAgo => 'minutes_ago'.tr();
+  static String get hoursAgo => 'hours_ago'.tr();
+  static String get daysAgo => 'days_ago'.tr();
 
   // ============================================================================
   // SAVED NEWS FEATURE
   // ============================================================================
-  static String get savedNews => 'Saved News';
-  static String get noSavedNews => 'No saved news yet';
-  static String get saveNewsToSeeHere => 'Save news articles to see them here';
-  static String get deleteSavedNews => 'Delete Saved News';
+  static String get savedNews => 'saved_news'.tr();
+  static String get noSavedNews => 'no_saved_news'.tr();
+  static String get saveNewsToSeeHere => 'save_news_to_see_here'.tr();
+  static String get deleteSavedNews => 'delete_saved_news'.tr();
   static String get deleteSavedNewsConfirmation =>
-      'Are you sure you want to delete this saved news?';
-  static String get cancel => 'Cancel';
-  static String get delete => 'Delete';
-  static String get newsDeletedSuccessfully => 'News deleted successfully';
-  static String get failedToDeleteNews => 'Failed to delete news';
-  static String get newsSavedSuccessfully => 'News saved successfully';
-  static String get failedToSaveNews => 'Failed to save news';
+      'delete_saved_news_confirmation'.tr();
+  static String get cancel => 'cancel'.tr();
+  static String get delete => 'delete'.tr();
+  static String get newsDeletedSuccessfully => 'news_deleted_successfully'.tr();
+  static String get failedToDeleteNews => 'failed_to_delete_news'.tr();
+  static String get newsSavedSuccessfully => 'news_saved_successfully'.tr();
+  static String get failedToSaveNews => 'failed_to_save_news'.tr();
 
-  static const List<String> weekDays = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday',
-  ];
+  // ============================================================================
+  // APP DRAWER
+  // ============================================================================
+  static String get language => 'language'.tr();
+  static String get theme => 'theme'.tr();
+  static String get lightTheme => 'light_theme'.tr();
+  static String get darkTheme => 'dark_theme'.tr();
+  static String get copyright => 'copyright'.tr();
 
-  static const List<String> months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+
+  // ============================================================================
+  // DATE & TIME
+  // ============================================================================
+  static List<String> get weekDays => 'week_days'.tr().split(',');
+
+  static List<String> get months => 'months'.tr().split(',');
 }

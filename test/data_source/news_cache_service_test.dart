@@ -1,5 +1,5 @@
 import 'package:flutter_news_app/app/data/data_source/local/news_cache_service.dart';
-import 'package:flutter_news_app/app/data/model/cached_news_data.dart';
+import 'package:flutter_news_app/app/data/model/news_data_cache.dart';
 import 'package:flutter_news_app/app/data/model/news_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive/hive.dart';

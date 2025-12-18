@@ -26,14 +26,20 @@ part 'populer_news_card.dart';
 class NewsTab extends ConsumerStatefulWidget {
   final bool isPopular;
 
-  const NewsTab({required this.isPopular, super.key});
+  const NewsTab({
+    required this.isPopular,
+    super.key,
+  }) : super();
 
   @override
   ConsumerState<NewsTab> createState() => _NewsTabState();
 }
 
 /// NEWS TAB STATE - MANAGES NEWS DISPLAY AND BOOKMARK INTERACTIONS
-class _NewsTabState extends ConsumerState<NewsTab> {
+class _NewsTabState extends ConsumerState<NewsTab> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   /// HANDLE BOOKMARK TAP - TOGGLE SAVE STATUS FOR NEWS ITEM
   Future<void> _handleBookmarkTap(NewsModel news) async {
     if (news.id == null) return;
@@ -48,11 +54,14 @@ class _NewsTabState extends ConsumerState<NewsTab> {
 
   @override
   Widget build(BuildContext context) {
-    /// WATCH HOME STATE AND SELECT APPROPRIATE TAB DATA
-    final homeState = ref.watch(homeViewModelProvider);
-    final tabState = widget.isPopular
-        ? homeState.latestTab
-        : homeState.forYouTab;
+    super.build(context); // Required for AutomaticKeepAliveClientMixin
+    
+    /// SELECTIVE WATCHING - ONLY WATCH RELEVANT TAB STATE TO MINIMIZE REBUILDS
+    final tabState = ref.watch(
+      homeViewModelProvider.select((state) => 
+        widget.isPopular ? state.latestTab : state.forYouTab
+      ),
+    );
 
     /// HANDLE DIFFERENT ASYNC STATES: DATA, LOADING, ERROR
     return tabState.news.when(

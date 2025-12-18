@@ -1,17 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_news_app/app/common/decorations/custom_input_decoration.dart';
-import 'package:flutter_news_app/app/config/localization/string_constants.dart';
+part of '../view/select_sources_view.dart';
 
-class SourcesSearchBar extends StatefulWidget {
+/// SOURCE SEARCH BAR
+class _SourcesSearchBar extends StatefulWidget {
   final TextEditingController controller;
 
-  const SourcesSearchBar({required this.controller, super.key});
+  const _SourcesSearchBar({required this.controller});
 
   @override
-  State<SourcesSearchBar> createState() => _SourcesSearchBarState();
+  State<_SourcesSearchBar> createState() => _SourcesSearchBarState();
 }
 
-class _SourcesSearchBarState extends State<SourcesSearchBar> {
+class _SourcesSearchBarState extends State<_SourcesSearchBar> {
   bool _hasText = false;
 
   @override

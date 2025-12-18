@@ -1,14 +1,10 @@
-import 'package:shimmer/shimmer.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_news_app/app/data/model/source_model.dart';
-import 'package:flutter_news_app/feature/sources/view_model/select_sources_view_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+part of '../view/select_sources_view.dart';
 
-class SourceTile extends ConsumerWidget {
+///  SOURCE TILE
+class _SourceTile extends ConsumerWidget {
   final SourceModel source;
 
-  const SourceTile({required this.source, super.key});
+  const _SourceTile({required this.source});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
