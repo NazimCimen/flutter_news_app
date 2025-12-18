@@ -54,7 +54,7 @@ Case kapsamında istenen temel gereksinimlere ek olarak aşağıdaki özellik ek
 - Dinamik renk şemaları
 - Kalıcı tema tercihi
 
-**Çoklu Dil Desteği (i18n)**
+**Çoklu Dil Desteği**
 - İngilizce ve Türkçe dil desteği
 - easy_localization ile runtime dil değiştirme
 
