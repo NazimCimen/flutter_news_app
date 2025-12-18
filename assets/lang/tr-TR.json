@@ -7,6 +7,7 @@
   "validation_email_invalid": "E-posta geçersiz",
   "validation_password_required": "Şifre gereklidir",
   "validation_password_min_length": "Şifre en az 6 karakter uzunluğunda olmalıdır",
+  "validation_passwords_do_not_match": "Şifreler eşleşmiyor",
   "select_sources_title": "Haber Kaynaklarını Seçin",
   "search_source_hint": "Bir kaynak arayın...",
   "save_button": "Kaydet",
@@ -71,6 +72,10 @@
   "terms_of_service": "Hizmet Şartlarımızı",
   "and": " ve ",
   "privacy_policy": "Gizlilik Politikamızı kabul etmiş olursunuz.",
+  "profile_loading": "Profil yükleniyor...",
+  "profile_error": "Profil yüklenemedi",
+  "guest_user": "Misafir Kullanıcı",
+  "logout": "Çıkış Yap",
   "week_days": "Pazartesi,Salı,Çarşamba,Perşembe,Cuma,Cumartesi,Pazar",
   "months": "Ocak,Şubat,Mart,Nisan,Mayıs,Haziran,Temmuz,Ağustos,Eylül,Ekim,Kasım,Aralık"
 }

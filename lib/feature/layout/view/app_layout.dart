@@ -4,10 +4,12 @@ import 'package:flutter_news_app/app/config/theme/app_colors.dart';
 import 'package:flutter_news_app/core/utils/size/constant_size.dart';
 import 'package:flutter_news_app/core/utils/size/padding_extension.dart';
 import 'package:flutter_news_app/feature/home/view/home_view.dart';
+import 'package:flutter_news_app/feature/profile/user_profile_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_news_app/app/config/localization/string_constants.dart';
 import 'package:flutter_news_app/feature/layout/provider/app_layout_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_news_app/app/data/model/user_model.dart';
 part '../widgets/app_bar.dart';
 part '../widgets/bottom_navbar.dart';
 

@@ -1,11 +1,13 @@
 part of '../view/app_layout.dart';
 
 /// CUSTOM APP BAR WIDGET - USED IN APP LAYOUT
-class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class _CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
   const _CustomAppBar();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userProfileAsync = ref.watch(userProfileProvider);
+
     return AppBar(
       forceMaterialTransparency: true,
       titleSpacing: 0,
@@ -53,14 +55,55 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         SizedBox(width: context.cMediumValue),
-        const CircleAvatar(
-          radius: 18,
-          backgroundImage: CachedNetworkImageProvider(
-            'https://i.pravatar.cc/150?img=7',
-          ),
-        ),
+        _buildUserAvatar(context, userProfileAsync),
         SizedBox(width: context.cSmallValue),
       ],
+    );
+  }
+
+  Widget _buildUserAvatar(
+    BuildContext context,
+    AsyncValue<UserModel?> userProfileAsync,
+  ) {
+    final theme = Theme.of(context);
+
+    return userProfileAsync.maybeWhen(
+      data: (user) {
+        final imageUrl = user?.imageUrl;
+
+        if (imageUrl != null && imageUrl.isNotEmpty) {
+          return CircleAvatar(
+            radius: 18,
+            backgroundColor: theme.colorScheme.surfaceContainerHighest,
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                width: 36,
+                height: 36,
+                fit: BoxFit.cover,
+                fadeInDuration: Duration.zero,
+                placeholder: (_, __) => const SizedBox.shrink(),
+                errorWidget: (_, __, ___) => _defaultAvatar(theme),
+              ),
+            ),
+          );
+        }
+
+        return _defaultAvatar(theme);
+      },
+      orElse: () => _defaultAvatar(theme),
+    );
+  }
+
+  Widget _defaultAvatar(ThemeData theme) {
+    return CircleAvatar(
+      radius: 18,
+      backgroundColor: theme.colorScheme.surfaceContainerHighest,
+      child: Icon(
+        Icons.person,
+        size: 20,
+        color: theme.colorScheme.onSurfaceVariant,
+      ),
     );
   }
 

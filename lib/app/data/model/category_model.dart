@@ -25,4 +25,19 @@ class CategoryModel extends Equatable {
       _$CategoryModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryModelToJson(this);
+  CategoryModel copyWith({
+    String? id,
+    String? name,
+    String? description,
+    String? colorCode,
+    String? imageUrl,
+  }) {
+    return CategoryModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      colorCode: colorCode ?? this.colorCode,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
 }

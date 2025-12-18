@@ -190,9 +190,7 @@ class NewsServiceImpl implements NewsService {
     required String savedNewsId,
   }) async {
     try {
-      await _dio.delete<void>(
-        '${ApiConstants.savedNews}/$savedNewsId',
-      );
+      await _dio.delete<void>('${ApiConstants.savedNews}/$savedNewsId');
 
       return const Right(null);
     } on DioException catch (e) {

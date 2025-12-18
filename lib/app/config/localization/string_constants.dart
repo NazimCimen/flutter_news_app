@@ -20,6 +20,8 @@ final class StringConstants {
   static String get validationPasswordRequired => 'validation_password_required'.tr();
   static String get validationPasswordMinLength =>
       'validation_password_min_length'.tr();
+  static String get validationPasswordsDoNotMatch =>
+      'validation_passwords_do_not_match'.tr();
 
   // ============================================================================
   // SOURCES FEATURE
@@ -109,6 +111,10 @@ final class StringConstants {
   static String get lightTheme => 'light_theme'.tr();
   static String get darkTheme => 'dark_theme'.tr();
   static String get copyright => 'copyright'.tr();
+  static String get profileLoading => 'profile_loading'.tr();
+  static String get profileError => 'profile_error'.tr();
+  static String get guestUser => 'guest_user'.tr();
+  static String get logout => 'logout'.tr();
 
 
   // ============================================================================

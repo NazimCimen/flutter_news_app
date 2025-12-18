@@ -76,7 +76,8 @@ class _LoginViewState extends ConsumerState<LoginView> with LoginMixin {
                           obsecureText: obscureText,
                           changeObsecureText: togglePasswordVisibility,
                           topLabel: StringConstants.passwordLabel,
-                          hintText: StringConstants.passwordHint,
+                          hintText: StringConstants.passwordHint,  validator: (value) =>
+                              AppValidators.passwordValidator(value),
                         ),
                         SizedBox(height: context.cMediumValue),
                         const Align(

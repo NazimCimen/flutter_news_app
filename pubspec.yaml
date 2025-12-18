@@ -17,7 +17,6 @@ dependencies:
   # ==================================================
   dartz: ^0.10.1 # Functional programming helpers (Either, Option, Failure handling)
   equatable: ^2.0.5 # Value-based equality for entities and states
-  get_it: ^7.7.0 # Service locator for dependency injection
   collection: ^1.18.0 # Advanced collection utilities and helpers
   json_annotation: ^4.9.0 # Annotations for JSON serialization code generation
 
@@ -35,7 +34,6 @@ dependencies:
   # ==================================================
   # Storage
   # ==================================================
-  shared_preferences: ^2.3.2 # Lightweight key-value local storage
   hive: ^2.2.3 # Fast local NoSQL database
   hive_flutter: ^1.1.0 # Flutter bindings for Hive
   flutter_secure_storage: ^10.0.0 # Encrypted storage for sensitive data (tokens)

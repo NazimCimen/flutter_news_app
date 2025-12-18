@@ -54,7 +54,7 @@ class _NewsTabState extends ConsumerState<NewsTab> with AutomaticKeepAliveClient
 
   @override
   Widget build(BuildContext context) {
-    super.build(context); // Required for AutomaticKeepAliveClientMixin
+    super.build(context); 
     
     /// SELECTIVE WATCHING - ONLY WATCH RELEVANT TAB STATE TO MINIMIZE REBUILDS
     final tabState = ref.watch(

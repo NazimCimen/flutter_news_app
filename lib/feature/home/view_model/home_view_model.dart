@@ -140,21 +140,21 @@ class HomeViewModel extends HomeViewModelBase {
     required String newsId,
     required bool currentStatus,
   }) async {
-    // Optimistic UI update
+    // OPTIMISTIC UI UPDATE
     state = state.withUpdatedNewsStatus(newsId, !currentStatus);
 
     if (currentStatus) {
       final result = await _newsRepository.deleteSavedNews(savedNewsId: newsId);
       result.fold(
-        // Rollback on failure
+        // ROLLBACK ON FAILURE
         (failure) => state = state.withUpdatedNewsStatus(newsId, currentStatus),
         (_) {},
       );
     } else {
       final result = await _newsRepository.saveNews(newsId: newsId);
       result.fold(
-        // Rollback on failure
-        (failure) => state = state.withUpdatedNewsStatus(newsId, currentStatus),
+        // ROLLBACK ON FAILURE
+         (failure) => state = state.withUpdatedNewsStatus(newsId, currentStatus),
         (_) {},
       );
     }

@@ -1,26 +1,21 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_news_app/app/data/data_source/remote/auth_service.dart';
 import 'package:flutter_news_app/core/error/failure.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'auth_service_test.mocks.dart';
 
-@GenerateMocks([Dio, FlutterSecureStorage])
+@GenerateMocks([Dio])
 void main() {
   late MockDio mockDio;
-  late MockFlutterSecureStorage mockSecureStorage;
   late AuthServiceImpl authService;
 
   setUp(() {
     mockDio = MockDio();
-    mockSecureStorage = MockFlutterSecureStorage();
     authService = AuthServiceImpl(
       dio: mockDio,
-      secureStorage: mockSecureStorage,
     );
   });
 
@@ -29,7 +24,6 @@ void main() {
     const testPassword = 'password123';
 
     test('should return Right(null) when sign up is successful', () async {
-      // Arrange
       when(mockDio.post<Map<String, dynamic>>(
         any,
         data: anyNamed('data'),
@@ -39,14 +33,12 @@ void main() {
             requestOptions: RequestOptions(path: ''),
           ));
 
-      // Act
       final result = await authService.signUp(testEmail, testPassword);
 
-      // Assert
       expect(result.isRight(), true);
       result.fold(
         (failure) => fail('Should return Right'),
-        (_) {}, // success is void
+        (_) {},
       );
       verify(mockDio.post<Map<String, dynamic>>(
         any,
@@ -55,7 +47,6 @@ void main() {
     });
 
     test('should return Failure when DioException occurs', () async {
-      // Arrange
       when(mockDio.post<Map<String, dynamic>>(
         any,
         data: anyNamed('data'),
@@ -64,10 +55,8 @@ void main() {
         type: DioExceptionType.badResponse,
       ));
 
-      // Act
       final result = await authService.signUp(testEmail, testPassword);
 
-      // Assert
       expect(result.isLeft(), true);
       result.fold(
         (failure) => expect(failure, isA<Failure>()),
@@ -76,16 +65,13 @@ void main() {
     });
 
     test('should return ServerFailure when unknown exception occurs', () async {
-      // Arrange
       when(mockDio.post<Map<String, dynamic>>(
         any,
         data: anyNamed('data'),
       )).thenThrow(Exception('Unknown error'));
 
-      // Act
       final result = await authService.signUp(testEmail, testPassword);
 
-      // Assert
       expect(result.isLeft(), true);
       result.fold(
         (failure) => expect(failure, isA<ServerFailure>()),
@@ -99,12 +85,16 @@ void main() {
     const testPassword = 'password123';
     const testAccessToken = 'test_access_token_12345';
 
-    test('should save access token and return Right(null) when login is successful',
-        () async {
-      // Arrange
+    test('should return Right(LoginResponse) when login is successful', () async {
       final responseData = {
         'result': {
           'accessToken': testAccessToken,
+          'user': {
+            'id': '123',
+            'name': 'Test User',
+            'email': testEmail,
+            'imageUrl': 'https://example.com/image.jpg',
+          },
         },
       };
       when(mockDio.post<Map<String, dynamic>>(
@@ -115,28 +105,21 @@ void main() {
             statusCode: 200,
             requestOptions: RequestOptions(path: ''),
           ));
-      when(mockSecureStorage.write(
-        key: anyNamed('key'),
-        value: anyNamed('value'),
-      )).thenAnswer((_) async => Future.value());
 
-      // Act
       final result = await authService.login(testEmail, testPassword);
 
-      // Assert
       expect(result.isRight(), true);
       result.fold(
         (failure) => fail('Should return Right'),
-        (_) {}, // success is void
+        (loginResponse) {
+          expect(loginResponse.accessToken, testAccessToken);
+          expect(loginResponse.user.email, testEmail);
+          expect(loginResponse.user.name, 'Test User');
+        },
       );
-      verify(mockSecureStorage.write(
-        key: anyNamed('key'),
-        value: testAccessToken,
-      )).called(1);
     });
 
     test('should return Failure when response data is null', () async {
-      // Arrange
       when(mockDio.post<Map<String, dynamic>>(
         any,
         data: anyNamed('data'),
@@ -146,10 +129,8 @@ void main() {
             requestOptions: RequestOptions(path: ''),
           ));
 
-      // Act
       final result = await authService.login(testEmail, testPassword);
 
-      // Assert
       expect(result.isLeft(), true);
       result.fold(
         (failure) => expect(failure, isA<ServerFailure>()),
@@ -158,10 +139,14 @@ void main() {
     });
 
     test('should return Failure when accessToken is empty', () async {
-      // Arrange
       final responseData = {
         'result': {
           'accessToken': '',
+          'user': {
+            'id': '123',
+            'name': 'Test User',
+            'email': testEmail,
+          },
         },
       };
       when(mockDio.post<Map<String, dynamic>>(
@@ -173,10 +158,33 @@ void main() {
             requestOptions: RequestOptions(path: ''),
           ));
 
-      // Act
       final result = await authService.login(testEmail, testPassword);
 
-      // Assert
+      expect(result.isLeft(), true);
+      result.fold(
+        (failure) => expect(failure, isA<ServerFailure>()),
+        (success) => fail('Should return Left'),
+      );
+    });
+
+    test('should return Failure when user data is null', () async {
+      final responseData = {
+        'result': {
+          'accessToken': testAccessToken,
+          'user': null,
+        },
+      };
+      when(mockDio.post<Map<String, dynamic>>(
+        any,
+        data: anyNamed('data'),
+      )).thenAnswer((_) async => Response(
+            data: responseData,
+            statusCode: 200,
+            requestOptions: RequestOptions(path: ''),
+          ));
+
+      final result = await authService.login(testEmail, testPassword);
+
       expect(result.isLeft(), true);
       result.fold(
         (failure) => expect(failure, isA<ServerFailure>()),
@@ -185,7 +193,6 @@ void main() {
     });
 
     test('should return Failure when DioException occurs', () async {
-      // Arrange
       when(mockDio.post<Map<String, dynamic>>(
         any,
         data: anyNamed('data'),
@@ -194,10 +201,8 @@ void main() {
         type: DioExceptionType.connectionTimeout,
       ));
 
-      // Act
       final result = await authService.login(testEmail, testPassword);
 
-      // Assert
       expect(result.isLeft(), true);
       result.fold(
         (failure) => expect(failure, isA<Failure>()),

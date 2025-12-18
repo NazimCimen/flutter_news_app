@@ -7,6 +7,7 @@
   "validation_email_invalid": "Email is invalid",
   "validation_password_required": "Password is required",
   "validation_password_min_length": "Password must be at least 6 characters long",
+  "validation_passwords_do_not_match": "Passwords do not match",
   "select_sources_title": "Select News Sources",
   "search_source_hint": "Search for a source...",
   "save_button": "Save",
@@ -71,6 +72,10 @@
   "terms_of_service": "Terms of Service",
   "and": " and ",
   "privacy_policy": "Privacy Policy.",
+  "profile_loading": "Loading profile...",
+  "profile_error": "Failed to load profile",
+  "guest_user": "Guest User",
+  "logout": "Logout",
   "week_days": "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday",
   "months": "January,February,March,April,May,June,July,August,September,October,November,December"
 }
